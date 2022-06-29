@@ -8,6 +8,18 @@
 
 {% block contents %}
 zzzz
+<div class="container m-5 border border-primary">
+    <canvas id="p-canvas" width="800" height="1200"></canvas>
+    <script>
+        // 2. 캔버스요소 가져오기        
+        var ele_canvas = document.getElementById("p-canvas");
+        // 3. 드로잉용 컨텍스트 생성        
+        var context_canvas = ele_canvas.getContext("2d");
+        // 4. 생성한 컨텍스트를 이용해서 드로잉하기
+        context_canvas.fillStyle = "#cc0000"; // 색상
+        context_canvas.fillRect(100, 200, 500, 100); // 도형
+    </script>
+</div>
 {% endblock %}
 
 
