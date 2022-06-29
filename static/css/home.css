@@ -1,0 +1,92 @@
+#container {
+    width: 100%;
+    height: 1500px;
+    background-color: rgb(197, 32, 32);
+    position: relative;
+}
+
+.wrap {
+    /* width: 80%; */
+    height: 90%;
+    /* position: relative; */
+    padding-top: 5%;
+    padding-left: 15%;
+    padding-right: 15%;
+    outline: 1px solid rgb(22, 236, 14);
+}
+
+.wrap>div {
+    float: left;
+    outline: 1px solid blue;
+}
+
+.btndiv {
+    margin-top: 5%;
+    margin-left: 3%;
+    float: left;
+    width: 50%;
+    height: 15%;
+}
+
+.insert_img {
+    margin-top: 5%;
+    margin-left: 3%;
+    float: left;
+    width: 30%;
+    height: 15%;
+    font-weight: bold;
+}
+
+.file_btn {
+    /* display: none; */
+    padding: 3px 15px;
+    background-color: #FF6600;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.prepre {
+    margin-top: 17%;
+    width: 100%;
+    height: 85%;
+    outline: 1px solid green;
+}
+
+.ans {
+    margin-top: 2.5%;
+    margin-left: 3%;
+    float: left;
+    width: 100%;
+    height: 10%;
+}
+
+select {
+    width:300px;
+    padding:5px;
+    border:1px solid #999;
+    font-family:'Nanumgothic';
+    border-radius:3px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance : none;
+}
+
+.table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-top: 15%;
+}
+.table td{
+    border: 1px solid black;
+    height: 30px;
+}
+.table tr{
+    border-left: none;
+}
+tr td:first-child{
+    border-left: none;
+}
+tr td:last-child{
+    border-right: none;
+}
