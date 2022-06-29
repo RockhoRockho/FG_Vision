@@ -1,7 +1,7 @@
 [
 	{
 		"form_title": "test",
-		"form_ret": "test-ret",
+		"form_ret": 20212345,
 		"lot": [
 			{
 				"label": "123",
@@ -20,18 +20,18 @@
 		]
 	},
 	{
-		"form_title": "test",
-		"form_ret": "test-ret",
+		"form_title": "test_3",
+		"form_ret": 20001212,
 		"lot": [
 			{
-				"label": "123",
+				"label": "133",
 				"x": 123,
 				"y": 234,
 				"w": 5,
 				"h": 6
 			},
 			{
-				"label": "133",
+				"label": "134",
 				"x": 12,
 				"y": 23,
 				"w": 2,

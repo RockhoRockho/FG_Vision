@@ -15,13 +15,13 @@ class JsonBase:
     # data 추가 후 저장
     # json_data를 파일로 저장
     # ret의 내림차순으로 정렬해서 저장
-    def update_date(self, data):
+    def update_data(self, data):
         with open(self.json_path, 'r') as f:
             json_data = json.load(f)
 
         json_data.append(data)
 
-        json_data = sorted(json_data, key=(lambda x: x['form_ret']), reverse=True)
+        json_data = sorted(json_data, key=(lambda x: x["form_ret"]), reverse=True)
 
         with open(self.json_path, 'w', encoding='utf-8') as f:
             json.dump(json_data, f, indent="\t")
@@ -34,7 +34,7 @@ class JsonBase:
 
         idx = -1
         for i, data in enumerate(json_data):
-            if json_data['form_title'] == title:
+            if data["form_title"] == title:
                 idx = i
         
         if i != -1:
@@ -51,22 +51,32 @@ class JsonBase:
         with open(self.json_path, 'r') as f:
             json_data = json.load(f)
         
-
         if title != "":
             temp = []
+            if json_data != []:
+                for data in json_data:
+                    if data["form_title"] == title:
+                        temp.append(data)
+                json_data = temp
 
         if ret != "":
             temp = []
+            if json_data != []:
+                max_date = 0
+                for data in json_data:
+                    if max_date <= data["form_ret"] <= ret:
+                        max_date = data["form_ret"]
+                        temp = data
+                json_data = temp
+        else:
+            json_data = sorted(json_data, key=(lambda x: x["form_ret"]), reverse=True)
 
-
-        if len(json_data) > 0:
-            return json_data[0]
-        return []
+        return json_data
 
     # 모든 데이터
     # title로 정렬해서 리턴
     def all_data(self):
         with open(self.json_path, 'r') as f:
             json_data = json.load(f)
-        json_data = sorted(json_data, key=(lambda x: x['form_title']), reverse=True)
+        json_data = sorted(json_data, key=(lambda x: x['form_title']))
         return json_data
