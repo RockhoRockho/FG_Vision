@@ -8,6 +8,9 @@ class JsonBase:
     # 객체 생성시 path저장
     def __init__(self, path):
         self.json_path = path
+        with open(self.json_path, 'r') as f:
+            json_data = json.load(f)
+            print(json_data[0])
 
     # data 추가 후 저장
     # json_data를 파일로 저장
@@ -18,8 +21,11 @@ class JsonBase:
 
         json_data.append(data)
 
+        json_data = sorted(json_data, key=(lambda x: x['form_ret']), reverse=True)
+
         with open(self.json_path, 'w', encoding='utf-8') as f:
             json.dump(json_data, f, indent="\t")
+        return True
 
     # title에 해당하는 data 삭제 후 저장
     def delete_data(self, title):
@@ -32,7 +38,7 @@ class JsonBase:
                 idx = i
         
         if i != -1:
-            del json_data(idx)
+            del json_data[idx]
             with open(self.json_path, 'w', encoding='utf-8') as f:
                 json.dump(json_data, f, indent="\t")
             return True
@@ -60,5 +66,7 @@ class JsonBase:
     # 모든 데이터
     # title로 정렬해서 리턴
     def all_data(self):
-        pass
-
+        with open(self.json_path, 'r') as f:
+            json_data = json.load(f)
+        json_data = sorted(json_data, key=(lambda x: x['form_title']), reverse=True)
+        return json_data

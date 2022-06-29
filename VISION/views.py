@@ -15,7 +15,6 @@ def admin_form_view(request):
     }
 
     f = JsonBase("jsonbase.json")
-    # f.save_date()
 
 
     
