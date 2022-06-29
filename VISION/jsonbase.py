@@ -8,9 +8,6 @@ class JsonBase:
     # 객체 생성시 path저장
     def __init__(self, path):
         self.json_path = path
-        with open(self.json_path, 'r') as f:
-            json_data = json.load(f)
-            print(json_data[0])
 
     # data 추가 후 저장
     # json_data를 파일로 저장
