@@ -12,20 +12,26 @@ function drawRect(d) {
     a.strokeRect(d["x"], d["y"], d["w"], d["h"]);
 };
 
-function draw() {
+function draw(d) {
+    // 픽셀 정리
+    var a = canvas.getContext("2d");
+    a.clearRect(0, 0, canvas.width, canvas.height);
+    // 컨텍스트 리셋
+    a.beginPath();
+    // 그리기
     for (i=0; i<data.length; i++){
-        console.log(i);
-        drawRect(data[i]);
+        drawRect(d[i]);
     }
 };
-draw();
+draw(data);
 
 
-function dataCopy(target_idx) {
-    data[target_idx]["x"] = target["x"]
-    data[target_idx]["y"] = target["y"]
-    data[target_idx]["w"] = target["w"]
-    data[target_idx]["h"] = target["h"]
+function dataCopy(d, t) {
+    d[t["idx"]]["x"] = t["x"];
+    d[t["idx"]]["y"] = t["y"];
+    d[t["idx"]]["w"] = t["w"];
+    d[t["idx"]]["h"] = t["h"];
+    return d
 }
 
 // 먼저 눌린 키를 수신할 이벤트 리스너 필요
@@ -36,8 +42,8 @@ document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(e) {
 	if(e.key == 37 || e.key == "ArrowRight") {
         target["x"] = target["x"] + 10;
-        dataCopy(target["idx"]);
-        draw();
+        data = dataCopy(data, target);
+        draw(data);
 	}
 	else if(e.key == 39 || e.key == "ArrowLeft") {
     }
