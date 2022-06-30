@@ -1,8 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}FG VISION {% endblock %}
 
-{% block script %} {% endblock %}
+{% block script %} 
+<script language = "javascript">
+    data = [
+        {"x":100, "y":100, "w":100, "h":100},
+        {"x":300, "y":300, "w":100, "h":250}
+    ];
+    target = {
+        "idx": 0,
+        "x": 100,
+        "y": 100,
+        "w": 100,
+        "h": 100,
+    };
+    // back_img = None
+</script>
+{% endblock %}
 
 
 
@@ -34,8 +50,8 @@
                 </div>
             </div>
         </div>
-        <div class="container w-50 m-3 border border-primary">
-            이미지 부분
+        <div class="container w-50 m-3 row align-items-center border border-primary">
+            <canvas id="p-canvas" class="m-1 border border-primary" width="420" height="594"></canvas>
         </div>
     </div>
     <div class="container m-1 border border-primary">
@@ -44,6 +60,7 @@
         </div>
     </div>
 </div>
+<script src="{% static 'js/form_make.js' %}"></script>
 {% endblock %}
 
 
