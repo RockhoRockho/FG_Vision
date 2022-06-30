@@ -2,32 +2,9 @@
 
 {% block title %}FG VISION{% endblock %}
 
-
-
-{% block script %}
-<script>
-    function preview(event) {
-        var reader = new FileReader();
-
-        reader.onload = function (event) {
-            var img = document.createElement("img");
-            img.setAttribute("src", event.target.result);
-            document.querySelector("div.prepre").appendChild(img).style.width = '100%';
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-    }
-    var check = $("input[type='checkbox']");
-    check.click(function () {
-        $("p").toggle();
-    });
-</script>
-{% endblock %}
-
 {% block stylesheet %}
 {% load static %}
 <link href="{% static 'css/home.css' %}" rel="stylesheet">
-<link href="{% static 'js/home.js' %}" rel="stylesheet">
 {% endblock %}
 
 {% block contents %}
@@ -37,10 +14,11 @@
             <div class="insert_img">이미지 첨부</div>
             <div class="btndiv">
                 <label class="file_btn" for="input_file">이미지 첨부</label>
-                <input type="file" id="input_file" style="display: none;" onchange="preview(event);">
+                <input type="file" id="input_file" style="display: none;">
             </div>
-            <div class="prepre"></div>
+            <div id="preview"></div>
         </div>
+    
         <div class="two" style="width: 60%; height: 45%;">
             <form action="" id="subsub" method="get">
                 <div class="ans">
@@ -108,6 +86,7 @@
                 <span class="slider round"></span>
             </label>
         </div>
+        <hr>
         <div class="four" style="border-top: 1px solid #000; width: 90%; margin-top: 4%; height: 45%;">
             <div class="down" style="width: 40%;">
                 <div style="width: 15%; float: left;">분석결과</div>
@@ -116,10 +95,12 @@
                     <a href="다운로드 파일경로" download><button>다운로드</button></a>
                 </div>
                 <div class="view"
-                    style="margin-top: 40px; clear: both; width: 100%; height: 500px; border: 1px solid green;"></div>
+                style="margin-top: 40px; clear: both; width: 100%; height: 500px; border: 1px solid green;"></div>
             </div>
         </div>
     </div>
 </div>
 <div style="clear: both;"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
