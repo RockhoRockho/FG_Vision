@@ -1,14 +1,9 @@
 function preview(event) {
-
-    var reader = new FileReader();
-
-    reader.onload = function (event) {
-        var img = document.createElement("img");
-        img.setAttribute("src", event.target.result);
-        document.querySelector("#preview").appendChild(img).style.width = '300px';
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
+    $('#preview').css({
+        "background-image": "url(" + window.URL.createObjectURL(event.target.files[0]) + ")",
+        "outline": "none",
+        "background-size": "100% 100%"
+    })
 }
 
 const InputImage = document.getElementById('input_file')
