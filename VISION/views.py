@@ -16,7 +16,7 @@ def admin_form_view(request):
 
 
     
-    return render(request, 'admin_form_view.html')
+    return render(request, 'admin_form_view.html', context)
 
 # 관리자 양식추가 페이지
 def admin_form_make(request):
