@@ -24,7 +24,12 @@ def admin_form_make(request):
 
     }
     
-    return render(request, 'admin_form_make.html')
+    context["boxData"] = [
+        {"label": "asd", "x":100, "y":100, "w":100, "h":100},
+        {"label": "123", "x":300, "y":300, "w":100, "h":250}
+    ]
+    
+    return render(request, 'admin_form_make.html', context)
 
 
 # 확인용 test함수
