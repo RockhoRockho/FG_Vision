@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {% endblock %}
+
+{% block script %} 
+<script language = "javascript">
+    data = [
+        {"x":100, "y":100, "w":100, "h":100},
+        {"x":300, "y":300, "w":100, "h":250}
+    ];
+    target = {
+        "idx": 0,
+        "x": 100,
+        "y": 100,
+        "w": 100,
+        "h": 100,
+    };
+    // back_img = None
+</script>
+{% endblock %}
+
+
+
+{% block contents %}
+<div class="container m-5 border border-primary">
+    <canvas id="p-canvas" width="800" height="1200"></canvas>
+</div>
+<script src="{% static 'js/test.js' %}"></script>
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}

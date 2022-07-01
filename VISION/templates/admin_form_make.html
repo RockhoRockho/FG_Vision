@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FG VISION {% endblock %}
+
+{% block script %} 
+<script language = "javascript">
+    data = [];
+    target = { "idx": 0, "x": 100, "y": 100, "w": 100, "h": 100 };
+    // back_img = None
+    function getDateObject(key, value) {
+        if (key === 'date') return new Date(value);
+        return value;
+    }
+</script>
+{% endblock %}
+
+
+
+{% block contents %}
+<!-- border border-primary 삭제하면 테두리 없어짐 -->
+<div class="container border border-primary">
+    <div class="container m-1 border border-primary">
+        <div>
+            이미지 첨부 부분
+        </div>
+    </div>
+    <div class="container m-1 d-flex justify-content-around border border-primary">
+        <div class="container w-50 m-3 border border-primary">
+            좌표값 입력 부분(일정크기 넘어가면 세로 스크롤)
+            <div class="container">
+                <!-- 테이블 -->
+                <table class="table m-1 ">
+                    <th>
+                        label
+                        <td>x</td>
+                        <td>y</td>
+                        <td>w</td>
+                        <td>h</td>
+                        <td>삭제</td>
+                    </th>
+                    {% for box in boxData %}
+                    <tr>
+                        <td>{{box.label}}</td>
+                        <td>{{box.x}}</td>
+                        <td>{{box.y}}</td>
+                        <td>{{box.w}}</td>
+                        <td>{{box.h}}</td>
+                        <td>*</td>
+                    </tr>
+                    <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
+                    {% endfor %}
+                </table>
+                <div class="m-1">
+                    <div>
+                        추가 버튼
+                    </div>
+                </div>
+                <div class="m-1">
+                    <div>
+                        적용 버튼
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container w-50 m-3 row align-items-center border border-primary">
+            <canvas id="p-canvas" class="m-1 border border-primary" width="420" height="594"></canvas>
+        </div>
+    </div>
+    <div class="container m-1 border border-primary">
+        <div>
+            양식 최종추가 버튼
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/form_make.js' %}"></script>
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}

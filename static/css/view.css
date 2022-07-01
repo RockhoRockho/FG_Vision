@@ -1,0 +1,38 @@
+.wrap{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 2%;
+}
+h2,h5{
+    font-weight: bold;
+}
+.admin_list{
+    height: 400px;
+    /* outline: 1px solid black; */
+}
+.table{
+    border-left: none;
+    border-right: none;
+    width: 35%;
+}
+table > tbody > tr > td{
+    border: 1px solid black;
+    text-align: center;
+}
+.table td{
+    font-size: 11px;
+}
+.table th{
+    text-align: center;
+}
+.table th:first-child{
+    width: 20%;
+}
+.page {
+    width: 94%;
+    margin: 0 center;
+}
+
+.page>ul {
+    margin-left: 10%;
+}

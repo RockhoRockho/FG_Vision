@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% block script %}
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block stylesheet %}
+	{% endblock %}
+</head>
+<body>
+    <!-- header -->
+    {% block herder %}
+    <div id="header">
+        <div class="head">
+            <div>FG VISION</div>
+            <div>관리자</div>
+        </div>
+    </div>
+    {% endblock %}
+    <!-- body -->
+    <main class="site-main ">
+        {% block contents %}
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        {% endblock %}
+    </main>
+    
+    <!-- footer -->
+    {% block footer %}
+    <footer>
+        <div class="footer">
+            이용약관 | 개인정보취급방침<br>
+            FG VISION<br>
+            서울특별시 강남구 테헤란로 146 현익빌딩 3,4층<br>
+            / 대표전화 02-1234-5678 / Email : fgvision@email.com<br>
+            Copyright© FG Vision
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+</html>
