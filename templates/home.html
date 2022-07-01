@@ -13,37 +13,24 @@
         <div class="one" style="width: 30%; height: 45%;">
             <div class="insert_img">이미지 첨부</div>
             <div class="btndiv">
-                <label class="file_btn" for="input_file">이미지 첨부</label>
-                <input type="file" id="input_file" style="display: none;">
+                <form id="toPython" action="{% url 'python' %}" method="POST" target="preview_file">
+                    {% csrf_token %}
+                    <label class="file_btn" for="input_file">이미지 첨부</label>
+                    <input type="file" id="input_file" style="display: none;">
+                    <input type="hidden" id="input_title">
+                </form>
+                <iframe name="preview_file"></iframe>
             </div>
+            <div id="preview_list"></div>
             <div id="preview"></div>
         </div>
     
         <div class="two" style="width: 60%; height: 45%;">
-            <form action="" id="subsub" method="get">
                 <div class="ans">
                     <div style="float: left; width: 20%;">양식 자동감지 결과 :</div>
                     <div style="float: left; width: 35%;">dssadasdsadsa</div>
                     <div style="clear: both; width: 17%; float: left; margin-top: 5%;">수동양식 선택</div>
                     <div style="float: left; width: 70%; margin-top: 5%;">
-                        <select id="select_list">
-                            <option selected>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                            <option>13</option>
-                            <option>14</option>
-                            <option>15</option>
-                            <option>16</option>
-                        </select>
                     </div>
                     <div style="clear: both;">
                         <table class="table">
@@ -76,8 +63,7 @@
                         </ul>
                     </div>
                 </div>
-            </form>
-            <button type="submit" form="subsub">적용하기</button>
+            <button type="submit" form="toPython">적용하기</button>
         </div>
         <div class="three" style="width: 10%; height: 45%; margin-bottom: 5%;">
             <p>번역</p>
