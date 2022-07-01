@@ -55,3 +55,28 @@ function keyDownHandler(e) {
     draw(data);
 }
 
+// 마우스 위치를 잡기위한 변수
+elem = document.querySelector('canvas');
+canvasX = 0;
+canvasY = 0;
+
+// 캔버스 내에서의 마우스 위치 잡기
+function mousemove(event){
+    let rect = elem.getBoundingClientRect();
+    if (rect.x <= event.clientX & event.clientX <= (rect.x + rect.width) & rect.y <= event.clientY & event.clientY <= (rect.y + rect.height)){
+        // console.log("canvasX : " + (event.clientX - rect.x) + "\t canvasY : " + (event.clientY - rect.y));
+        tempX = event.clientX - rect.x;
+        tempY = event.clientY - rect.y;
+
+        moveX = tempX - canvasX;
+        moveY = tempY - canvasY;
+
+        canvasX = tempX;
+        canvasY = tempY;
+        
+        console.log('move:', moveX, moveY);
+        console.log('offset', canvasX, canvasY);
+    }
+}
+
+window.addEventListener('mousemove', mousemove);
