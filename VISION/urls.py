@@ -1,10 +1,19 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
-    path('', views.vision, name='vision'),
-    path('admin/', views.admin_form_view, name='admin_form_view'),
-    path('admin/make/', views.admin_form_make, name='admin_form_make'),
+    path('', views.home, name='home'),
+    path('view/', views.admin_form_view, name='admin_form_view'),
+    path('make/', views.admin_form_make, name='admin_form_make'),
     path('test/', views.test, name='test'),
     path('python/', views.python, name='python'),
 ]
+
+if settings.DEBUG: 
+    urlpatterns += static(
+        settings.MEDIA_URL, 
+        document_root = settings.MEDIA_ROOT
+    )

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}FG VISION{% endblock %}
+
+{% block stylesheet %}
+{% load static %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contents %}
+<div id="container">
+    <div class="wrap">
+        <div class="one" style="width: 30%; height: 45%;">
+            <div class="insert_img">이미지 첨부</div>
+            <div class="btndiv">
+                <form id="toPython" action="{% url 'python' %}" method="POST" target="preview_file">
+                    {% csrf_token %}
+                    <label class="file_btn" for="input_file">이미지 첨부</label>
+                    <input type="file" id="input_file" style="display: none;">
+                    <input type="hidden" id="input_title">
+                </form>
+                <iframe name="preview_file"></iframe>
+            </div>
+            <div id="preview_list"></div>
+            <div id="preview"></div>
+        </div>
+    
+        <div class="two" style="width: 60%; height: 45%;">
+                <div class="ans">
+                    <div style="float: left; width: 20%;">양식 자동감지 결과 :</div>
+                    <div style="float: left; width: 35%;">dssadasdsadsa</div>
+                    <div style="clear: both; width: 17%; float: left; margin-top: 5%;">수동양식 선택</div>
+                    <div style="float: left; width: 70%; margin-top: 5%;">
+                    </div>
+                    <div style="clear: both;">
+                        <table class="table">
+                            <tbody style="width: 90%; border-left: none;">
+                                <tr style="width: 90%;">
+                                    <td style="width:13%; text-align: center;">No.</td>
+                                    <td style="width:48%; text-align: center;">양식명</td>
+                                    <td style="width:38%; text-align: center;">기타</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            <button type="submit" form="toPython">적용하기</button>
+        </div>
+        <div class="three" style="width: 10%; height: 45%; margin-bottom: 5%;">
+            <p>번역</p>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <hr>
+        <div class="four" style="border-top: 1px solid #000; width: 90%; margin-top: 4%; height: 45%;">
+            <div class="down" style="width: 40%;">
+                <div style="width: 15%; float: left;">분석결과</div>
+                <div style="width: 67%; float: left; text-align: right; padding-right: 10px;">파일명</div>
+                <div class="down_btn" style="width: 18%; float: left;">
+                    <a href="다운로드 파일경로" download><button>다운로드</button></a>
+                </div>
+                <div class="view"
+                style="margin-top: 40px; clear: both; width: 100%; height: 500px; border: 1px solid green;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

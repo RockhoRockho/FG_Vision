@@ -1,18 +1,13 @@
 from http.client import HTTPResponse
 from django.http import JsonResponse
 from django.shortcuts import render
+from .jsonbase import JsonBase
 import sys
 import json
 import cv2
 
 sys.path.append('C:/Users/User/AppData/Local/Programs/Python/Python39/Lib/site-packages')
 sys.path.append('C:/Users/User/AppData/Local/Programs/Python/Python39/Lib')
-
-# 사용자 메인 페이지
-def vision(request):
-    context = {}
-    
-    return render(request, 'vision.html', context)
 
 
 # 관리자 메인 페이지
@@ -58,4 +53,12 @@ def python(request):
     
     cv2.imwrite('temp1.jpg', img1)
 
-    return HTTPResponse()
+def home(request):
+    context = {}
+
+    j = JsonBase('jsonbase.json')
+
+
+    context['jsonData'] = j.all_data()
+
+    return render(request, 'home.html', context)
