@@ -35,11 +35,11 @@
                 <div class="ans">
                     <div style="float: left; width: 20%;">양식 자동감지 결과 :</div>
                     <div style="float: left; width: 35%;">dssadasdsadsa</div>
-                    <div style="clear: both; width: 17%; float: left; margin-top: 5%;">수동양식 선택</div>
+                    <div id="title_name" style="clear: both; width: 17%; float: left; margin-top: 5%;"></div>
                     <div style="float: left; width: 70%; margin-top: 5%;">
                     </div>
                     <div style="clear: both;">
-                        <table class="table">
+                        <table class="table table-hover">
                             <tbody style="width: 90%; border-left: none;">
                                 <tr style="width: 90%;">
                                     <td style="width:13%; text-align: center;">No.</td>
@@ -47,14 +47,14 @@
                                     <td style="width:38%; text-align: center;">기타</td>
                                 </tr>
                                 {% for d in jsonData %}
-                                <tr>
+                                <tr class="form_row">
                                     <td>a</td>
                                     <td>{{d.form_title}}</td>
                                     <td>b</td>
                                 </tr>
-                                <script language="javascript">
+                                <!-- <script language="javascript">
                                     json_data.push(JSON.parse('{{d}}'.replace(/&#x27;/g, '\"')));
-                                </script>
+                                </script> -->
                                 {% endfor %}
                             </tbody>
                         </table>

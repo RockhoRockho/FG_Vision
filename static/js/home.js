@@ -19,6 +19,15 @@ InputImage.addEventListener('change', event => {
     preview(event)
 })
 
+$('.form_row').click(function(){
+    
+    $('.table-active').removeClass('table-active')
+    var row = $(this).children()
+    row.addClass('table-active')
+    $('#input_title').attr('value', row[1].innerHTML)
+    $('#title_name').html('선택된 양식 : ' + row[1].innerHTML)
+})
+
 $('#preview')
     .on("dragover", dragOver)
     .on("dragleave", dragOver)
