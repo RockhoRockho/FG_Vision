@@ -1,5 +1,5 @@
 // 상수설정
-SIZE_RANGE = 6;
+SIZE_RANGE = 6;  // 사각형 크기변경가능 범위
 
 // 캔버스요소 가져오기  
 var canvas = document.getElementById("p-canvas");
@@ -30,7 +30,18 @@ function draw(d) {
 };
 draw(data);
 
-// 
+// 사각형 크기&위치 변경시 표의 데이터를 수정해주는 함수
+// TODO
+
+// 표의 데이터 수정시 사각형의 크기&위치를 수정해주는 함수
+// TODO
+
+// 표가 삭제되면 사각형 다시그려주는 함수
+// TODO
+
+// 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행과 사각형 표시
+// TODO
+
 
 
 // 데이터 복사해주는 함수 (data[i]에 target을 복사해서 넣는데 사용됨)
@@ -42,26 +53,26 @@ function dataCopy(d, t) {
     return d
 }
 
-// 먼저 눌린 키를 수신할 이벤트 리스너 필요
-document.addEventListener("keydown", keyDownHandler, false);
+// // 먼저 눌린 키를 수신할 이벤트 리스너 필요
+// document.addEventListener("keydown", keyDownHandler, false);
  
-// 키보드가 눌렸을 때 일어나는 함수 (매개변수: e)
-function keyDownHandler(e) {
-	if(e.key == 37 || e.key == "ArrowRight") {
-        target["x"] = target["x"] + 1;
-	}
-	else if(e.key == 39 || e.key == "ArrowLeft") {
-        target["x"] = target["x"] - 1;
-    }
-    else if(e.key == 38 || e.key == "ArrowUp") {
-        target["y"] = target["y"] - 1;
-    }
-    else if(e.key == 40 || e.key == "ArrowDown") {
-        target["y"] = target["y"] + 1;
-    }
-    data = dataCopy(data, target);
-    draw(data);
-}
+// // 키보드가 눌렸을 때 일어나는 함수 (매개변수: e)
+// function keyDownHandler(e) {
+// 	if(e.key == 37 || e.key == "ArrowRight") {
+//         target["x"] = target["x"] + 1;
+// 	}
+// 	else if(e.key == 39 || e.key == "ArrowLeft") {
+//         target["x"] = target["x"] - 1;
+//     }
+//     else if(e.key == 38 || e.key == "ArrowUp") {
+//         target["y"] = target["y"] - 1;
+//     }
+//     else if(e.key == 40 || e.key == "ArrowDown") {
+//         target["y"] = target["y"] + 1;
+//     }
+//     data = dataCopy(data, target);
+//     draw(data);
+// }
 
 // 마우스 위치를 잡기위한 변수
 elem = document.querySelector('canvas');
@@ -137,7 +148,7 @@ function mousemove(event){
                 draw(data);
             }
 
-            // 솔직히 꼭지점은 귀찮은데 안하면 안되려나
+            // 솔직히 꼭지점은 귀찮은데 안하면 안되려나 ㄹㅇ
 
         }
     }
