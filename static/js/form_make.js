@@ -42,6 +42,10 @@ draw(data);
 // 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행과 사각형 표시
 // TODO
 
+// 이미지 추가
+// TODO
+// drawImage(image, x, y, width, height);
+
 
 
 // 데이터 복사해주는 함수 (data[i]에 target을 복사해서 넣는데 사용됨)
