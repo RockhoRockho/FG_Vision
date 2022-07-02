@@ -5,6 +5,9 @@
 {% block stylesheet %}
 {% load static %}
 <link href="{% static 'css/home.css' %}" rel="stylesheet">
+<script language = "javascript">
+    json_data = [];
+</script>
 {% endblock %}
 
 {% block contents %}
@@ -40,16 +43,16 @@
                                     <td style="width:48%; text-align: center;">양식명</td>
                                     <td style="width:38%; text-align: center;">기타</td>
                                 </tr>
+                                {% for d in jsonData %}
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>a</td>
+                                    <td>{{d.form_title}}</td>
+                                    <td>b</td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <script language="javascript">
+                                    json_data.push(JSON.parse('{{d}}'.replace(/&#x27;/g, '\"')));
+                                </script>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
