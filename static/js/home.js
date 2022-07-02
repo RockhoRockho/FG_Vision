@@ -1,9 +1,17 @@
 function preview(event) {
-    $('#preview').css({
-        "background-image": "url(" + window.URL.createObjectURL(event.target.files[0]) + ")",
-        "outline": "none",
-        "background-size": "100% 100%"
-    })
+
+    $('.preview_img').remove();
+
+    var reader = new FileReader();
+
+    reader.onload = function(event) {
+        var img = document.createElement("img");
+        img.setAttribute("src", event.target.result);
+        img.setAttribute("class", "preview_img");
+        document.querySelector("div#preview").appendChild(img);
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
 }
 
 const InputImage = document.getElementById('input_file')
@@ -47,11 +55,14 @@ function uploadFiles(e) {
         return;
     }
     if (files[0].type.match(/image.*/)) {
-        $(e.target).css({
-            "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
-            "outline": "none",
-            "background-size": "100% 100%"
-        });
+
+        $('.preview_img').remove();
+        
+        var img = document.createElement("img");
+        img.setAttribute("src", window.URL.createObjectURL(files[0]));  
+        img.setAttribute("class", "preview_img");
+        document.querySelector("div#preview").appendChild(img);
+        
     } else {
         alert('이미지가 아닙니다.');
         return;

@@ -25,7 +25,6 @@
     margin-left: 3%;
     float: left;
     width: 50%;
-    height: 15%;
 }
 
 .insert_img {
@@ -33,7 +32,6 @@
     margin-left: 3%;
     float: left;
     width: 30%;
-    height: 15%;
     font-weight: bold;
 }
 
@@ -216,4 +214,9 @@ p {
 .down{
     padding-top: 20px;
     /* padding-left: 20px; */
+}
+
+.preview_img{
+    max-width: 100%;
+    height: auto;
 }

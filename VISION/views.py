@@ -2,6 +2,7 @@ from http.client import HTTPResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 from .jsonbase import JsonBase
+from .models import Document
 import sys
 import json
 import cv2
@@ -16,8 +17,6 @@ def admin_form_view(request):
 
     }
 
-
-    
     return render(request, 'admin_form_view.html', context)
 
 # 관리자 양식추가 페이지
@@ -40,25 +39,36 @@ def test(request):
 
     return render(request, 'test.html')
 
-def python(request):
-    
-    with open('jsonbase.json', 'r', encoding='utf-8') as f:
-        json_data = json.load(f)
-
-    img = cv2.imread('./static/img/1-1.jpg')
-    img1 = cv2.resize(img, (2480, 3508))
-    for i in json_data[0]['lot']:
-        (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
-        cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
-    
-    cv2.imwrite('temp1.jpg', img1)
-
 def home(request):
     context = {}
 
+    
+
     j = JsonBase('jsonbase.json')
-
-
     context['jsonData'] = j.all_data()
 
+    if request.method == "POST":
+
+        document = Document()
+        document.title = request.POST["input_title"]
+        document.images = request.FILES['input_file']
+        document.save()
+
+        documents = Document.objects.last()
+
+        with open('jsonbase.json', 'r', encoding='utf-8') as f:
+            json_data = json.load(f)
+
+        img = cv2.imread('temp1.jpg')
+        img1 = cv2.resize(img, (2480, 3508))
+        for i in json_data[0]['lot']:
+            (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
+            cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
+        
+        cv2.imwrite('temp1.jpg', img1)
+
+        context['files'] = 'temp1.jpg'
+
     return render(request, 'home.html', context)
+
+    
