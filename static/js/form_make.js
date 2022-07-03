@@ -38,6 +38,15 @@ function draw(d) {
 };
 draw(data);
 
+// 데이터 복사해주는 함수 (data[i]에 target을 복사해서 넣는데 사용됨)
+function dataCopy(d, t) {
+    d[t["idx"]]["x"] = t["x"];
+    d[t["idx"]]["y"] = t["y"];
+    d[t["idx"]]["w"] = t["w"];
+    d[t["idx"]]["h"] = t["h"];
+    return d
+}
+
 
 // 표의 내용을 data에 적용
 function setDataFromTable(d) {
@@ -64,14 +73,20 @@ function setTabelData(t) {
 
 }
 
-
-// 표의 데이터 수정후 엔터를 누르면(또는 버튼) 사각형의 크기&위치를 수정해주는 함수
-// TODO
+// 테이블 적용시 data적용하고 그리기
+function drawTableData(event){
+    data = setDataFromTable(data);
+    target["x"] = Number(data[target["idx"]]["x"]);
+    target["y"] = Number(data[target["idx"]]["y"]);
+    target["w"] = Number(data[target["idx"]]["w"]);
+    target["h"] = Number(data[target["idx"]]["h"]);
+    draw(data);
+}
 
 // 표가 삭제되면 사각형 다시그려주는 함수
 // TODO
 
-// 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행과 사각형 표시
+// 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행 표시
 // TODO
 
 // 이미지 추가
@@ -80,14 +95,6 @@ function setTabelData(t) {
 
 
 
-// 데이터 복사해주는 함수 (data[i]에 target을 복사해서 넣는데 사용됨)
-function dataCopy(d, t) {
-    d[t["idx"]]["x"] = t["x"];
-    d[t["idx"]]["y"] = t["y"];
-    d[t["idx"]]["w"] = t["w"];
-    d[t["idx"]]["h"] = t["h"];
-    return d
-}
 
 // // 먼저 눌린 키를 수신할 이벤트 리스너 필요
 // document.addEventListener("keydown", keyDownHandler, false);
@@ -192,7 +199,7 @@ function mousemove(event){
             // 테이블과 데이터 값 연동
             setTabelData(target);
             // data = setDataFromTable(data);
-            console.log(data)
+            // console.log(data)
 
         }
     }
@@ -210,10 +217,13 @@ function mouseup(event){
 }
 
 
-// 이벤트 추가
+// 마우스 이벤트 추가
 window.addEventListener('mousedown', mousedown);
 window.addEventListener('mouseup', mouseup);
 window.addEventListener('mousemove', mousemove);
+
+// 테이블 데이터 적용 이벤트 추가
+document.getElementById('table_submit').addEventListener('click', drawTableData);
 
 // ?
 function getDateObject(key, value) {
