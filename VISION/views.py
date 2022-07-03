@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .jsonbase import JsonBase
 from .models import Document
+import os
 import sys
 import json
 import cv2
@@ -47,26 +48,41 @@ def home(request):
 
     if request.method == "POST":
 
-        document = Document()
-        document.title = request.POST["input_title"]
-        document.images = request.FILES['input_file']
-        document.save()
+        title = request.POST["input_title"]
+        doc = Document.objects.filter(title=title)
 
-        documents = Document.objects.last()
+        # 똑같은 양식명에 파일이 한개라도 있다면 overwriting
+        if doc.count():
+            doc[0].images = request.FILES['input_file']
+            doc[0].save()
+
+        # 양식명이 똑같은 것이 없다면 new save
+        else:
+            document = Document()
+            document.title = request.POST["input_title"]
+            document.images = request.FILES['input_file']
+            document.save()
+
+        # documents = Document.objects.last()
 
         with open('jsonbase.json', 'r', encoding='utf-8') as f:
             json_data = json.load(f)
-
-        img = cv2.imread('temp1.jpg')
+        base = 'media\images'
+        img = cv2.imread(os.path.join(base, str(request.FILES['input_file'])))
         img1 = cv2.resize(img, (2480, 3508))
-        for i in json_data[0]['lot']:
-            (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
-            cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
         
-        cv2.imwrite('temp1.jpg', img1)
+        data = (d for d in json_data if d['form_title'] == request.POST["input_title"])
+        data_lot = next(data)['lot']
+        print(data_lot)
 
-        context['files'] = 'temp1.jpg'
+        for i in data_lot:
+                (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
+                cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
+
+        ret, jpeg = cv2.imencode('.jpg', img1)
+        cv2.imwrite('./media/temp1.jpg', img1)
+        
+        context['ret'] = ret
+        context['files'] = 'media/temp1.jpg'
 
     return render(request, 'home.html', context)
-
-    

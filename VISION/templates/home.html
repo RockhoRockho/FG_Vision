@@ -25,8 +25,8 @@
             </div>
             <div id="preview_list"></div>
             <div id="preview" class="text-center">
-                {% if file.images %}
-                <img src="{{ file.images.url }}" class="preview_img">
+                {% if ret %}
+                <img src="{{ files }}" class="preview_img">
                 {% endif %}
             </div>
         </div>
@@ -48,9 +48,9 @@
                                 </tr>
                                 {% for d in jsonData %}
                                 <tr class="form_row">
-                                    <td>a</td>
-                                    <td>{{d.form_title}}</td>
-                                    <td>b</td>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ d.form_title }}</td>
+                                    <td>{{ d.form_ret }}</td>
                                 </tr>
                                 <!-- <script language="javascript">
                                     json_data.push(JSON.parse('{{d}}'.replace(/&#x27;/g, '\"')));
