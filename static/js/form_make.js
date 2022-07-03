@@ -5,11 +5,15 @@ SIZE_RANGE = 6;  // 사각형 크기변경가능 범위
 var canvas = document.getElementById("p-canvas");
 
 // 사각형을 그리는 함수
-function drawRect(d) {
+function drawRect(d, color) {
     // 드로잉요 컨텍스트 생성
     var a = canvas.getContext("2d");
     // 선 색
-    a.strokeStyle = "#cc0000";
+    if (color == 'red') {
+        a.strokeStyle = "#cc0000";
+    } else if (color == 'blue') {
+        a.strokeStyle = "#0000cc";
+    }
     // 선 굵기
     a.lineWidth=2.0;
     // 사각형 그리기
@@ -25,7 +29,11 @@ function draw(d) {
     
     // 그리기
     for (i=0; i<data.length; i++){
-        drawRect(d[i]);
+        if (i == target['idx']) {
+            drawRect(d[i], 'blue');
+        } else {
+            drawRect(d[i], 'red');
+        }
     }
 };
 draw(data);
@@ -57,7 +65,7 @@ function setTabelData(t) {
 }
 
 
-// 표의 데이터 수정시 사각형의 크기&위치를 수정해주는 함수
+// 표의 데이터 수정후 엔터를 누르면(또는 버튼) 사각형의 크기&위치를 수정해주는 함수
 // TODO
 
 // 표가 삭제되면 사각형 다시그려주는 함수
@@ -142,42 +150,44 @@ function mousemove(event){
 
 
             // 타겟의 외곽선인지 확인
-            // 왼쪽선
-            if (target['x'] - SIZE_RANGE < canvasX & canvasX < target['x'] + SIZE_RANGE) {
-                target['x'] += moveX;
-                target['w'] -= moveX;
+            if (target['x'] - SIZE_RANGE < canvasX & canvasX < (target['x'] + target['w']) + SIZE_RANGE & target['y'] - SIZE_RANGE < canvasY & canvasY < (target['y'] + target['h']) + SIZE_RANGE){
 
-                data = dataCopy(data, target);
-                draw(data);
+                // 왼쪽선
+                if (target['x'] - SIZE_RANGE < canvasX & canvasX <= target['x']) {
+                    target['x'] += moveX;
+                    target['w'] -= moveX;
+
+                    data = dataCopy(data, target);
+                    draw(data);
+                }
+
+                // 오른쪽선
+                if (target['x'] + target['w'] <= canvasX & canvasX < target['x'] + target['w'] + SIZE_RANGE) {
+                    target['w'] += moveX;
+
+                    data = dataCopy(data, target);
+                    draw(data);
+                }
+
+                // 위쪽선
+                if (target['y'] - SIZE_RANGE < canvasY & canvasY <= target['y']) {
+                    target['y'] += moveY;
+                    target['h'] -= moveY;
+
+                    data = dataCopy(data, target);
+                    draw(data);
+                }
+
+                // 아래쪽선
+                if (target['y'] + target['h'] <= canvasY & canvasY < target['y'] + target['h'] + SIZE_RANGE) {
+                    target['h'] += moveY;
+
+                    data = dataCopy(data, target);
+                    draw(data);
+                }
+            
             }
-
-            // 오른쪽선
-            if (target['x'] + target['w'] - SIZE_RANGE < canvasX & canvasX < target['x'] + target['w'] + SIZE_RANGE) {
-                target['w'] += moveX;
-
-                data = dataCopy(data, target);
-                draw(data);
-            }
-
-            // 위쪽선
-            if (target['y'] - SIZE_RANGE < canvasY & canvasY < target['y'] + SIZE_RANGE) {
-                target['y'] += moveY;
-                target['h'] -= moveY;
-
-                data = dataCopy(data, target);
-                draw(data);
-            }
-
-            // 아래쪽선
-            if (target['y'] + target['h'] - SIZE_RANGE < canvasY & canvasY < target['y'] + target['h'] + SIZE_RANGE) {
-                target['h'] += moveY;
-
-                data = dataCopy(data, target);
-                draw(data);
-            }
-
-            // 솔직히 꼭지점은 귀찮은데 안하면 안되려나 ㄹㅇ
-
+            
 
             // 테이블과 데이터 값 연동
             setTabelData(target);

@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                         {% for box in boxData %}
-                        <tr>
+                        <tr class="data_box">
                             <td><input type="text" class="form-control" value="{{box.label}}"></td>
                             <td><input type="number" class="form-control" value="{{box.x}}"></td>
                             <td><input type="number" class="form-control" value="{{box.y}}"></td>
@@ -57,13 +57,8 @@
                     </tbody>
                 </table>
                 <div class="m-1">
-                    <div>
-                        추가 버튼
-                    </div>
-                </div>
-                <div class="m-1">
-                    <div>
-                        적용 버튼
+                    <div class=" d-grid gap-2">
+                        <button class="btn btn-primary">적용</button>
                     </div>
                 </div>
             </div>
