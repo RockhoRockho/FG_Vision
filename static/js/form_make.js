@@ -30,6 +30,21 @@ function draw(d) {
 };
 draw(data);
 
+
+// 표의 내용을 data에 적용
+function setDataFromTable(d) {
+    table_data = document.getElementById("data-table").getElementsByTagName("tr");
+    for (i=0; i<d.length; i++){
+        d[i]["label"] = table_data[i+1].getElementsByTagName("td")[0].getElementsByTagName("input")[0].value;
+        d[i]["x"] = table_data[i+1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value;
+        d[i]["y"] = table_data[i+1].getElementsByTagName("td")[2].getElementsByTagName("input")[0].value;
+        d[i]["w"] = table_data[i+1].getElementsByTagName("td")[3].getElementsByTagName("input")[0].value;
+        d[i]["h"] = table_data[i+1].getElementsByTagName("td")[4].getElementsByTagName("input")[0].value;
+    }
+
+    return d
+}
+
 // 사각형 크기&위치 변경시 표의 데이터를 수정해주는 함수
 function setTabelData(t) {
     const table_tr = document.getElementById("data-table").getElementsByTagName("tr")[t["idx"] + 1];
@@ -164,8 +179,10 @@ function mousemove(event){
             // 솔직히 꼭지점은 귀찮은데 안하면 안되려나 ㄹㅇ
 
 
-            // 테이블에 값 적용
+            // 테이블과 데이터 값 연동
             setTabelData(target);
+            // data = setDataFromTable(data);
+            console.log(data)
 
         }
     }

@@ -40,15 +40,20 @@
                     <tbody>
                         {% for box in boxData %}
                         <tr>
-                            <td>{{box.label}}</td>
+                            <td><input type="text" class="form-control" value="{{box.label}}"></td>
                             <td><input type="number" class="form-control" value="{{box.x}}"></td>
                             <td><input type="number" class="form-control" value="{{box.y}}"></td>
                             <td><input type="number" class="form-control" value="{{box.w}}"></td>
                             <td><input type="number" class="form-control" value="{{box.h}}"></td>
-                            <td>*</td>
+                            <td><button class="btn btn-light" class="del_tr">del</button></td>
                         </tr>
                         <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
                         {% endfor %}
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <button class="btn btn-light" id="plus_tr">plus</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <div class="m-1">
