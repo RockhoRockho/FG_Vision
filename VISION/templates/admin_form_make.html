@@ -37,7 +37,7 @@
                             <td>삭제</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="data_tr">
                         {% for box in boxData %}
                         <tr class="data_box">
                             <td><input type="text" class="form-control" value="{{box.label}}"></td>
@@ -45,13 +45,13 @@
                             <td><input type="number" class="form-control" value="{{box.y}}"></td>
                             <td><input type="number" class="form-control" value="{{box.w}}"></td>
                             <td><input type="number" class="form-control" value="{{box.h}}"></td>
-                            <td><button class="btn btn-light" class="del_tr">del</button></td>
+                            <td><button class="btn btn-light del_tr" value="{{forloop.counter}}" onclick="delTabelData(this.value)">del</button></td>
                         </tr>
                         <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
                         {% endfor %}
                         <tr>
                             <td colspan="6" class="text-center">
-                                <button class="btn btn-light" id="plus_tr">plus</button>
+                                <button class="btn btn-light" id="plus_tr" onclick="createTableData()">plus</button>
                             </td>
                         </tr>
                     </tbody>

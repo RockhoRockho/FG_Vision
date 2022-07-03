@@ -35,6 +35,7 @@ function draw(d) {
             drawRect(d[i], 'red');
         }
     }
+    console.log(data);
 };
 draw(data);
 
@@ -83,8 +84,70 @@ function drawTableData(event){
     draw(data);
 }
 
+// data를 표에 적용하는 함수
+function dataToTable(d){
+    // table 클리어
+    del_class = document.getElementsByClassName("data_box");
+    // console.log(del_class.length);
+    for (i=del_class.length - 1; i>=0; i--){
+        del_class[i].remove();
+    }
+
+
+    // data를 table에 적용
+    parent_node = document.getElementById("data_tr");
+    for (i=data.length - 1; i>=0; i--){
+        let tr_tag = document.createElement('tr');
+        tr_tag.setAttribute('class', 'data_box');
+        parent_node.prepend(tr_tag);
+
+        // td_tags = []
+        label_list = ["label", "x", "y", "w", "h"];
+        for (j=0; j<5; j++){
+            let td_tag = document.createElement('td');
+            tr_tag.appendChild(td_tag);
+
+            let input_tag = document.createElement('input');
+            if (j == 0){
+                input_tag.setAttribute('type', 'text');
+            } else {
+                input_tag.setAttribute('type', 'number');
+            }
+            input_tag.setAttribute('class', 'form-control');
+            input_tag.setAttribute('value', d[i][label_list[j]]);
+            td_tag.appendChild(input_tag);
+        }
+
+        let td_tag = document.createElement('td');
+        tr_tag.appendChild(td_tag);
+
+        let btn_tag = document.createElement('button');
+        btn_tag.setAttribute('class', 'btn btn-light del_tr');
+        btn_tag.setAttribute('value', i);
+        btn_tag.setAttribute('onclick', 'delTabelData(this.value)');
+        btn_tag.innerHTML = "del";
+
+        td_tag.appendChild(btn_tag);
+    }
+
+
+}
+
 // 표가 삭제되면 사각형 다시그려주는 함수
-// TODO
+function delTabelData(this_idx){
+    temp = data.splice(this_idx, 1);
+    dataToTable(data);
+    draw(data);
+}
+
+// 표에 데이터 추가
+function createTableData(){
+    // data에 새로운 행 추가
+    data.push({ "label": "label", "x": 100, "y": 100, "w": 100, "h": 100 });
+
+    dataToTable(data);
+    draw(data);
+}
 
 // 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행 표시
 // TODO
