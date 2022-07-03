@@ -31,7 +31,16 @@ function draw(d) {
 draw(data);
 
 // 사각형 크기&위치 변경시 표의 데이터를 수정해주는 함수
-// TODO
+function setTabelData(t) {
+    const table_tr = document.getElementById("data-table").getElementsByTagName("tr")[t["idx"] + 1];
+
+    table_tr.getElementsByTagName("td")[1].getElementsByTagName("input")[0].value = t["x"];
+    table_tr.getElementsByTagName("td")[2].getElementsByTagName("input")[0].value = t["y"];
+    table_tr.getElementsByTagName("td")[3].getElementsByTagName("input")[0].value = t["w"];
+    table_tr.getElementsByTagName("td")[4].getElementsByTagName("input")[0].value = t["h"];
+
+}
+
 
 // 표의 데이터 수정시 사각형의 크기&위치를 수정해주는 함수
 // TODO
@@ -153,6 +162,10 @@ function mousemove(event){
             }
 
             // 솔직히 꼭지점은 귀찮은데 안하면 안되려나 ㄹㅇ
+
+
+            // 테이블에 값 적용
+            setTabelData(target);
 
         }
     }
