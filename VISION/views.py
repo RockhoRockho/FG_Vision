@@ -27,8 +27,7 @@ def admin_form_make(request):
     }
     
     context["boxData"] = [
-        {"label": "asd", "x":100, "y":100, "w":100, "h":100},
-        {"label": "123", "x":300, "y":300, "w":100, "h":250}
+        {"label": "label", "x":100, "y":100, "w":100, "h":100}
     ]
     
     return render(request, 'admin_form_make.html', context)

@@ -39,13 +39,13 @@
                     </thead>
                     <tbody id="data_tr">
                         {% for box in boxData %}
-                        <tr class="data_box">
+                        <tr class="data_box" value="{{forloop.counter0}}" onclick="clickTr(this)">
                             <td><input type="text" class="form-control" value="{{box.label}}"></td>
                             <td><input type="number" class="form-control" value="{{box.x}}"></td>
                             <td><input type="number" class="form-control" value="{{box.y}}"></td>
                             <td><input type="number" class="form-control" value="{{box.w}}"></td>
                             <td><input type="number" class="form-control" value="{{box.h}}"></td>
-                            <td><button class="btn btn-light del_tr" value="{{forloop.counter}}" onclick="delTabelData(this.value)">del</button></td>
+                            <td><button class="btn btn-light del_tr" value="{{forloop.counter0}}" onclick="delTabelData(this.value)">del</button></td>
                         </tr>
                         <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
                         {% endfor %}

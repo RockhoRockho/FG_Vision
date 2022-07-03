@@ -35,7 +35,7 @@ function draw(d) {
             drawRect(d[i], 'red');
         }
     }
-    console.log(data);
+    // console.log(data);
 };
 draw(data);
 
@@ -99,6 +99,8 @@ function dataToTable(d){
     for (i=data.length - 1; i>=0; i--){
         let tr_tag = document.createElement('tr');
         tr_tag.setAttribute('class', 'data_box');
+        tr_tag.setAttribute('value', i);
+        tr_tag.setAttribute('onclick', 'clickTr(this)');
         parent_node.prepend(tr_tag);
 
         // td_tags = []
@@ -150,7 +152,24 @@ function createTableData(){
 }
 
 // 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행 표시
-// TODO
+function clickTr(this_tr){
+    // 모든 행 선택 풀기
+    c = document.getElementsByClassName('data_box');
+    for (i=0; i<c.length; i++){
+        c[i].setAttribute('class', 'data_box');
+    }
+
+    // 선택 행 선택 적용
+    this_tr.setAttribute('class', 'data_box table-active');
+
+    // target에 적용
+    target['idx'] = Number(this_tr.getAttribute('value'));
+    target['x'] = data[target['idx']]['x'];
+    target['y'] = data[target['idx']]['y'];
+    target['w'] = data[target['idx']]['w'];
+    target['h'] = data[target['idx']]['h'];
+    draw(data);
+}
 
 // 이미지 추가
 // TODO
@@ -159,26 +178,7 @@ function createTableData(){
 
 
 
-// // 먼저 눌린 키를 수신할 이벤트 리스너 필요
-// document.addEventListener("keydown", keyDownHandler, false);
- 
-// // 키보드가 눌렸을 때 일어나는 함수 (매개변수: e)
-// function keyDownHandler(e) {
-// 	if(e.key == 37 || e.key == "ArrowRight") {
-//         target["x"] = target["x"] + 1;
-// 	}
-// 	else if(e.key == 39 || e.key == "ArrowLeft") {
-//         target["x"] = target["x"] - 1;
-//     }
-//     else if(e.key == 38 || e.key == "ArrowUp") {
-//         target["y"] = target["y"] - 1;
-//     }
-//     else if(e.key == 40 || e.key == "ArrowDown") {
-//         target["y"] = target["y"] + 1;
-//     }
-//     data = dataCopy(data, target);
-//     draw(data);
-// }
+
 
 // 마우스 위치를 잡기위한 변수
 elem = document.querySelector('canvas');
