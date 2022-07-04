@@ -55,7 +55,8 @@ def home(request):
     if request.method == "POST":
 
         title = request.POST["input_title"]
-        doc = Document.objects.filter(title=title)
+        image = request.FILES['input_file']
+        doc = Document.objects.filter(title=title, images=image)
 
         # 똑같은 양식명에 파일이 한개라도 있다면 overwriting
         print(doc.count())
@@ -98,10 +99,11 @@ def home(request):
 
                 ret, img_th = cv2.threshold(img_blur, 120, 230, cv2.THRESH_BINARY_INV)
 
-                options = "--psm 4"
+                options = "--oem 3 --psm 8"
 
                 title = pytesseract.image_to_string(cv2.cvtColor(img_th, cv2.COLOR_BGR2RGB), config=options, lang='Hangul')
                 title = title.replace(' ', '').replace('\n', '')
+                print(title)
 
                 # 파일에 일치하는 제목을 찾는다면 아까 빈파일에 저장한 값에 overwriting 한다
                 if title in titles:
