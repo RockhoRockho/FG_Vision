@@ -99,7 +99,7 @@ def home(request):
 
                 ret, img_th = cv2.threshold(img_blur, 120, 230, cv2.THRESH_BINARY_INV)
 
-                options = "--oem 3 --psm 8"
+                options = "--oem 1 --psm 7"
 
                 title = pytesseract.image_to_string(cv2.cvtColor(img_th, cv2.COLOR_BGR2RGB), config=options, lang='Hangul')
                 title = title.replace(' ', '').replace('\n', '')
