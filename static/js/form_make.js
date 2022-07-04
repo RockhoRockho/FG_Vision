@@ -176,7 +176,7 @@ function clickTr(this_tr){
 
 function submitBtn() {
     data = JSON.stringify(data);
-    document.getElementById("data_file").setAttribute('value', data);
+    document.getElementById("data_lot").setAttribute('value', data);
     document.getElementById('data_form').submit();
 };
 

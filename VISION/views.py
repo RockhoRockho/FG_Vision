@@ -143,10 +143,25 @@ def home(request):
 def save(request):
     data_title = request.POST["data_title"]
     data_ret = request.POST["data_ret"]
-    data_file = json.loads(request.POST["data_lot"])
+    data_lot = json.loads(request.POST["data_lot"])
 
-    print(data_file)
+    data = {
+        "form_title": data_title,
+        "form_ret": data_ret,
+        "lot": [],
+    }
+
+    for d in data_lot:
+        data["lot"].append(d)
+
+    print(data)
+
+    j = JsonBase('jsonbase.json')
+    if j.update_data(data):
+        print('\nsave\n')
+    else:
+        print('\nfail\n')
 
 
-    print('\nsave\n')
+
     return redirect('admin_form_make')
