@@ -171,10 +171,38 @@ function clickTr(this_tr){
     draw(data);
 }
 
+// submit 버튼
+
+function submitBtn() {
+    data = JSON.stringify(data);
+    document.getElementById("data_file").setAttribute('value', data);
+    document.getElementById('data_form').submit();
+};
+
 // 이미지 추가
 // TODO
 // drawImage(image, x, y, width, height);
 
+// var drop = document.getElementById('drop');
+// drop.ondragover = function(e) {
+//     e.preventDefault(); // 이 부분이 없으면 ondrop 이벤트가 발생하지 않습니다.
+// };
+// drop.ondrop = function(e) {
+//     e.preventDefault(); // 이 부분이 없으면 파일을 브라우저 실행해버립니다.
+//     var data = e.dataTransfer;
+//     if (data.items) { // DataTransferItemList 객체 사용
+//         for (var i = 0; i < data.items.length; i++) { // DataTransferItem 객체 사용
+//             if (data.items[i].kind == "file") {
+//                 var file = data.items[i].getAsFile();
+//                 alert(file.name);
+//             }
+//         }
+//     } else { // File API 사용
+//         for (var i = 0; i < data.files.length; i++) {
+//         alert(data.files[i].name);
+//         }
+//     }
+// };
 
 
 
@@ -287,6 +315,8 @@ window.addEventListener('mousemove', mousemove);
 
 // 테이블 데이터 적용 이벤트 추가
 document.getElementById('table_submit').addEventListener('click', drawTableData);
+
+
 
 // ?
 function getDateObject(key, value) {

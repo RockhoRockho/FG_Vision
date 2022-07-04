@@ -37,6 +37,15 @@ def admin_form_make(request):
 def test(request):
     context = {}
 
+    data_title = request.POST["data_title"]
+    data_file = json.loads(request.POST["data_file"])
+
+    print(data_title)
+    print(data_file)
+    print(type(data_file))
+    print(data_file[0])
+    print(type(data_file[0]))
+
     return render(request, 'test.html')
 
 def home(request):

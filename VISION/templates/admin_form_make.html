@@ -18,7 +18,16 @@
 <div class="container border border-primary">
     <div class="container m-1 border border-primary">
         <div>
-            이미지 첨부 부분
+            <form action="{% url 'test' %}" method="post" id="data_form">
+                {% csrf_token %}
+                <div class="row p-1"> 
+                    <div class="col col-1">양식이름 : </div>
+                    <div class="col col-6">
+                        <input type="text" name="data_title" class="form-control" value="title">
+                    </div>
+                </div>
+                <input type="hidden" name="data_file" id="data_file">
+            </form>
         </div>
     </div>
     <div class="container m-1 d-flex justify-content-around border border-primary">
@@ -68,8 +77,8 @@
         </div>
     </div>
     <div class="container m-1 border border-primary">
-        <div>
-            양식 최종추가 버튼
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary" id="submit_btn" onclick="submitBtn()">양식 최종추가</button>
         </div>
     </div>
 </div>
