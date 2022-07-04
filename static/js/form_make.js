@@ -58,6 +58,7 @@ function setDataFromTable(d) {
         d[i]["y"] = table_data[i+1].getElementsByTagName("td")[2].getElementsByTagName("input")[0].value;
         d[i]["w"] = table_data[i+1].getElementsByTagName("td")[3].getElementsByTagName("input")[0].value;
         d[i]["h"] = table_data[i+1].getElementsByTagName("td")[4].getElementsByTagName("input")[0].value;
+        d[i]["type"] = table_data[i+1].getElementsByTagName("td")[5].getElementsByTagName("input")[0].value;
     }
 
     return d
@@ -104,13 +105,13 @@ function dataToTable(d){
         parent_node.prepend(tr_tag);
 
         // td_tags = []
-        label_list = ["label", "x", "y", "w", "h"];
-        for (j=0; j<5; j++){
+        label_list = ["label", "x", "y", "w", "h", "type"];
+        for (j=0; j<6; j++){
             let td_tag = document.createElement('td');
             tr_tag.appendChild(td_tag);
 
             let input_tag = document.createElement('input');
-            if (j == 0){
+            if (j == 0 || j == 5){
                 input_tag.setAttribute('type', 'text');
             } else {
                 input_tag.setAttribute('type', 'number');
@@ -145,7 +146,7 @@ function delTabelData(this_idx){
 // 표에 데이터 추가
 function createTableData(){
     // data에 새로운 행 추가
-    data.push({ "label": "label", "x": 100, "y": 100, "w": 100, "h": 100 });
+    data.push({ "label": "label", "x": 100, "y": 100, "w": 100, "h": 100, "type": "type" });
 
     dataToTable(data);
     draw(data);
