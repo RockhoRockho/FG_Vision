@@ -35,8 +35,18 @@ function draw(d) {
             drawRect(d[i], 'red');
         }
     }
+    // console.log(data);
 };
 draw(data);
+
+// 데이터 복사해주는 함수 (data[i]에 target을 복사해서 넣는데 사용됨)
+function dataCopy(d, t) {
+    d[t["idx"]]["x"] = t["x"];
+    d[t["idx"]]["y"] = t["y"];
+    d[t["idx"]]["w"] = t["w"];
+    d[t["idx"]]["h"] = t["h"];
+    return d
+}
 
 
 // 표의 내용을 data에 적용
@@ -48,6 +58,7 @@ function setDataFromTable(d) {
         d[i]["y"] = table_data[i+1].getElementsByTagName("td")[2].getElementsByTagName("input")[0].value;
         d[i]["w"] = table_data[i+1].getElementsByTagName("td")[3].getElementsByTagName("input")[0].value;
         d[i]["h"] = table_data[i+1].getElementsByTagName("td")[4].getElementsByTagName("input")[0].value;
+        d[i]["type"] = table_data[i+1].getElementsByTagName("td")[5].getElementsByTagName("input")[0].value;
     }
 
     return d
@@ -64,51 +75,139 @@ function setTabelData(t) {
 
 }
 
+// 테이블 적용시 data적용하고 그리기
+function drawTableData(event){
+    data = setDataFromTable(data);
+    target["x"] = Number(data[target["idx"]]["x"]);
+    target["y"] = Number(data[target["idx"]]["y"]);
+    target["w"] = Number(data[target["idx"]]["w"]);
+    target["h"] = Number(data[target["idx"]]["h"]);
+    draw(data);
+}
 
-// 표의 데이터 수정후 엔터를 누르면(또는 버튼) 사각형의 크기&위치를 수정해주는 함수
-// TODO
+// data를 표에 적용하는 함수
+function dataToTable(d){
+    // table 클리어
+    del_class = document.getElementsByClassName("data_box");
+    // console.log(del_class.length);
+    for (i=del_class.length - 1; i>=0; i--){
+        del_class[i].remove();
+    }
+
+
+    // data를 table에 적용
+    parent_node = document.getElementById("data_tr");
+    for (i=data.length - 1; i>=0; i--){
+        let tr_tag = document.createElement('tr');
+        tr_tag.setAttribute('class', 'data_box');
+        tr_tag.setAttribute('value', i);
+        tr_tag.setAttribute('onclick', 'clickTr(this)');
+        parent_node.prepend(tr_tag);
+
+        // td_tags = []
+        label_list = ["label", "x", "y", "w", "h", "type"];
+        for (j=0; j<6; j++){
+            let td_tag = document.createElement('td');
+            tr_tag.appendChild(td_tag);
+
+            let input_tag = document.createElement('input');
+            if (j == 0 || j == 5){
+                input_tag.setAttribute('type', 'text');
+            } else {
+                input_tag.setAttribute('type', 'number');
+            }
+            input_tag.setAttribute('class', 'form-control');
+            input_tag.setAttribute('value', d[i][label_list[j]]);
+            td_tag.appendChild(input_tag);
+        }
+
+        let td_tag = document.createElement('td');
+        tr_tag.appendChild(td_tag);
+
+        let btn_tag = document.createElement('button');
+        btn_tag.setAttribute('class', 'btn btn-light del_tr');
+        btn_tag.setAttribute('value', i);
+        btn_tag.setAttribute('onclick', 'delTabelData(this.value)');
+        btn_tag.innerHTML = "del";
+
+        td_tag.appendChild(btn_tag);
+    }
+
+
+}
 
 // 표가 삭제되면 사각형 다시그려주는 함수
-// TODO
+function delTabelData(this_idx){
+    temp = data.splice(this_idx, 1);
+    dataToTable(data);
+    draw(data);
+}
 
-// 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행과 사각형 표시
-// TODO
+// 표에 데이터 추가
+function createTableData(){
+    // data에 새로운 행 추가
+    data.push({ "label": "label", "x": 100, "y": 100, "w": 100, "h": 100, "type": "type" });
+
+    dataToTable(data);
+    draw(data);
+}
+
+// 테이블 행 클릭시 선택된 사각형 변경해주는 함수 + 선택중인 행 표시
+function clickTr(this_tr){
+    // 모든 행 선택 풀기
+    c = document.getElementsByClassName('data_box');
+    for (i=0; i<c.length; i++){
+        c[i].setAttribute('class', 'data_box');
+    }
+
+    // 선택 행 선택 적용
+    this_tr.setAttribute('class', 'data_box table-active');
+
+    // target에 적용
+    target['idx'] = Number(this_tr.getAttribute('value'));
+    target['x'] = data[target['idx']]['x'];
+    target['y'] = data[target['idx']]['y'];
+    target['w'] = data[target['idx']]['w'];
+    target['h'] = data[target['idx']]['h'];
+    draw(data);
+}
+
+// submit 버튼
+
+function submitBtn() {
+    data = JSON.stringify(data);
+    document.getElementById("data_file").setAttribute('value', data);
+    document.getElementById('data_form').submit();
+};
 
 // 이미지 추가
 // TODO
 // drawImage(image, x, y, width, height);
 
+// var drop = document.getElementById('drop');
+// drop.ondragover = function(e) {
+//     e.preventDefault(); // 이 부분이 없으면 ondrop 이벤트가 발생하지 않습니다.
+// };
+// drop.ondrop = function(e) {
+//     e.preventDefault(); // 이 부분이 없으면 파일을 브라우저 실행해버립니다.
+//     var data = e.dataTransfer;
+//     if (data.items) { // DataTransferItemList 객체 사용
+//         for (var i = 0; i < data.items.length; i++) { // DataTransferItem 객체 사용
+//             if (data.items[i].kind == "file") {
+//                 var file = data.items[i].getAsFile();
+//                 alert(file.name);
+//             }
+//         }
+//     } else { // File API 사용
+//         for (var i = 0; i < data.files.length; i++) {
+//         alert(data.files[i].name);
+//         }
+//     }
+// };
 
 
-// 데이터 복사해주는 함수 (data[i]에 target을 복사해서 넣는데 사용됨)
-function dataCopy(d, t) {
-    d[t["idx"]]["x"] = t["x"];
-    d[t["idx"]]["y"] = t["y"];
-    d[t["idx"]]["w"] = t["w"];
-    d[t["idx"]]["h"] = t["h"];
-    return d
-}
 
-// // 먼저 눌린 키를 수신할 이벤트 리스너 필요
-// document.addEventListener("keydown", keyDownHandler, false);
- 
-// // 키보드가 눌렸을 때 일어나는 함수 (매개변수: e)
-// function keyDownHandler(e) {
-// 	if(e.key == 37 || e.key == "ArrowRight") {
-//         target["x"] = target["x"] + 1;
-// 	}
-// 	else if(e.key == 39 || e.key == "ArrowLeft") {
-//         target["x"] = target["x"] - 1;
-//     }
-//     else if(e.key == 38 || e.key == "ArrowUp") {
-//         target["y"] = target["y"] - 1;
-//     }
-//     else if(e.key == 40 || e.key == "ArrowDown") {
-//         target["y"] = target["y"] + 1;
-//     }
-//     data = dataCopy(data, target);
-//     draw(data);
-// }
+
 
 // 마우스 위치를 잡기위한 변수
 elem = document.querySelector('canvas');
@@ -192,7 +291,7 @@ function mousemove(event){
             // 테이블과 데이터 값 연동
             setTabelData(target);
             // data = setDataFromTable(data);
-            console.log(data)
+            // console.log(data)
 
         }
     }
@@ -210,10 +309,15 @@ function mouseup(event){
 }
 
 
-// 이벤트 추가
+// 마우스 이벤트 추가
 window.addEventListener('mousedown', mousedown);
 window.addEventListener('mouseup', mouseup);
 window.addEventListener('mousemove', mousemove);
+
+// 테이블 데이터 적용 이벤트 추가
+document.getElementById('table_submit').addEventListener('click', drawTableData);
+
+
 
 // ?
 function getDateObject(key, value) {

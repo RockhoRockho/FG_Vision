@@ -18,11 +18,31 @@
 <div class="container border border-primary">
     <div class="container m-1 border border-primary">
         <div>
-            이미지 첨부 부분
+            <form action="{% url 'save' %}" method="post" id="data_form">
+                {% csrf_token %}
+                <div class="row p-1"> 
+                    <div class="col col-1">양식이름 : </div>
+                    <div class="col col-6">
+                        <input type="text" name="data_title" class="form-control" value="title">
+                    </div>
+                </div>
+                <div class="row p-1"> 
+                    <div class="col col-1">양식일자 : </div>
+                    <div class="col col-6">
+                        <input type="text" name="data_ret" class="form-control" value="20220704">
+                    </div>
+                </div>
+                <input type="hidden" name="data_lot" id="data_lot">
+            </form>
         </div>
     </div>
-    <div class="container m-1 d-flex justify-content-around border border-primary">
-        <div class="container w-50 m-3 border border-primary">
+    <div class="container row m-1 border border-primary">
+        <!-- 캠버스 -->
+        <div class="container m-3 border border-primary">
+            <canvas id="p-canvas" class="m-1 border border-primary" width="420" height="594"></canvas>
+        </div>
+
+        <div class="container m-3 border border-primary">
             좌표값 입력 부분(일정크기 넘어가면 세로 스크롤)
             <div class="container">
                 <!-- 테이블 -->
@@ -34,42 +54,41 @@
                             <td>y</td>
                             <td>w</td>
                             <td>h</td>
+                            <td>type</td>
                             <td>삭제</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="data_tr">
                         {% for box in boxData %}
-                        <tr class="data_box">
+                        <tr class="data_box" value="{{forloop.counter0}}" onclick="clickTr(this)">
                             <td><input type="text" class="form-control" value="{{box.label}}"></td>
                             <td><input type="number" class="form-control" value="{{box.x}}"></td>
                             <td><input type="number" class="form-control" value="{{box.y}}"></td>
                             <td><input type="number" class="form-control" value="{{box.w}}"></td>
                             <td><input type="number" class="form-control" value="{{box.h}}"></td>
-                            <td><button class="btn btn-light" class="del_tr">del</button></td>
+                            <td><input type="text" class="form-control" value="{{box.type}}"></td>
+                            <td><button class="btn btn-light del_tr" value="{{forloop.counter0}}" onclick="delTabelData(this.value)">del</button></td>
                         </tr>
                         <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
                         {% endfor %}
                         <tr>
-                            <td colspan="6" class="text-center">
-                                <button class="btn btn-light" id="plus_tr">plus</button>
+                            <td colspan="7" class="text-center">
+                                <button class="btn btn-light" id="plus_tr" onclick="createTableData()">plus</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="m-1">
                     <div class=" d-grid gap-2">
-                        <button class="btn btn-primary">적용</button>
+                        <button class="btn btn-primary" id="table_submit">적용</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container w-50 m-3 border border-primary">
-            <canvas id="p-canvas" class="m-1 border border-primary" width="420" height="594"></canvas>
-        </div>
     </div>
     <div class="container m-1 border border-primary">
-        <div>
-            양식 최종추가 버튼
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary" id="submit_btn" onclick="submitBtn()">양식 최종추가</button>
         </div>
     </div>
 </div>

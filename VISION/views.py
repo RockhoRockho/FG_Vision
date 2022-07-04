@@ -1,6 +1,6 @@
 from http.client import HTTPResponse
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .jsonbase import JsonBase
 from .models import Document
 import os
@@ -24,8 +24,7 @@ def admin_form_make(request):
     }
     
     context["boxData"] = [
-        {"label": "asd", "x":100, "y":100, "w":100, "h":100},
-        {"label": "123", "x":300, "y":300, "w":100, "h":250}
+        {"label": "label", "x":100, "y":100, "w":100, "h":100, "type": "type"}
     ]
     
     return render(request, 'admin_form_make.html', context)
@@ -34,6 +33,15 @@ def admin_form_make(request):
 # 확인용 test함수
 def test(request):
     context = {}
+
+    data_title = request.POST["data_title"]
+    data_file = json.loads(request.POST["data_file"])
+
+    print(data_title)
+    print(data_file)
+    print(type(data_file))
+    print(data_file[0])
+    print(type(data_file[0]))
 
     return render(request, 'test.html')
 
@@ -129,3 +137,16 @@ def home(request):
         context['files'] = 'media/temp1.jpg'
 
     return render(request, 'home.html', context)
+
+
+# 양식 jsonbase.json에 저장
+def save(request):
+    data_title = request.POST["data_title"]
+    data_ret = request.POST["data_ret"]
+    data_file = json.loads(request.POST["data_lot"])
+
+    print(data_file)
+
+
+    print('\nsave\n')
+    return redirect('admin_form_make')
