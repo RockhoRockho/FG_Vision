@@ -21,7 +21,11 @@ InputImage.addEventListener('change', event => {
 
 $('.form_row').click(function(){
     
-    $('.table-active').removeClass('table-active')
+    //$('.table-active').removeClass('table-active')
+    //var row = $(this).children()
+    //row.addClass('table-active')
+    $('.table-active').not(this).removeClass('table-active');
+    $(this).toggleClass('table-active');
     var row = $(this).children()
     row.addClass('table-active')
     $('#input_title').attr('value', row[1].innerHTML)
