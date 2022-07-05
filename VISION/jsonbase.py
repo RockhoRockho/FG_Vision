@@ -21,7 +21,7 @@ class JsonBase:
         json_data = sorted(json_data, key=(lambda x: x["form_ret"]), reverse=True)
 
         with open(self.json_path, 'w', encoding='utf-8') as f:
-            json.dump(json_data, f, indent="\t")
+            json.dump(json_data, f, indent="\t", ensure_ascii=False)
         return True
 
     # title에 해당하는 data 삭제 후 저장
@@ -37,7 +37,7 @@ class JsonBase:
         if i != -1:
             del json_data[idx]
             with open(self.json_path, 'w', encoding='utf-8') as f:
-                json.dump(json_data, f, indent="\t")
+                json.dump(json_data, f, indent="\t", ensure_ascii=False)
             return True
 
         return False
