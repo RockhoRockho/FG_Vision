@@ -7,7 +7,8 @@
 <script language = "javascript">
     data = [];
     target = { "idx": 0, "x": 100, "y": 100, "w": 100, "h": 100 };
-    // back_img = None
+    back_img = new Image();
+    // back_img.src = "{% static 'img/1-1.jpg' %}";
 </script>
 {% endblock %}
 
@@ -36,11 +37,12 @@
             </form>
         </div>
     </div>
-    <div class="container row m-1 border border-primary">
+    <div class="container row m-1 border border-primary position-relative">
         <!-- 캠버스 -->
-        <div class="container m-3 border border-primary">
+        <div class="container m-3 border border-primary" id="drop">
             <canvas id="p-canvas" class="m-1 border border-primary" width="420" height="594"></canvas>
         </div>
+        <div class=""></div>
 
         <div class="container m-3 border border-primary">
             좌표값 입력 부분(일정크기 넘어가면 세로 스크롤)

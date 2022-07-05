@@ -27,7 +27,17 @@ function draw(d) {
     a.clearRect(0, 0, canvas.width, canvas.height);
     a.beginPath();
     
-    // 그리기
+    // 투명 배경
+    a.fillStyle = 'white';
+    a.globalAlpha = 0.1;
+    a.fillRect(0, 0, canvas.width, canvas.height);
+    a.globalAlpha = 1;
+
+    // 그림 그리기
+    let temp_cvs = document.querySelector('canvas').getBoundingClientRect()
+    a.drawImage(back_img, 0, 0, temp_cvs.width, temp_cvs.height);
+
+    // 사각형 그리기
     for (i=0; i<data.length; i++){
         if (i == target['idx']) {
             drawRect(d[i], 'blue');
@@ -180,31 +190,52 @@ function submitBtn() {
     document.getElementById('data_form').submit();
 };
 
-// 이미지 추가
-// TODO
-// drawImage(image, x, y, width, height);
+// 이미지 추가=
+// drawImage(image, x, y, width, height);=
+$('#drop')
+    .on("dragover", dragOver)
+    .on("dragleave", dragOver)
+    .on("drop", uploadFiles);
 
-// var drop = document.getElementById('drop');
-// drop.ondragover = function(e) {
-//     e.preventDefault(); // 이 부분이 없으면 ondrop 이벤트가 발생하지 않습니다.
-// };
-// drop.ondrop = function(e) {
-//     e.preventDefault(); // 이 부분이 없으면 파일을 브라우저 실행해버립니다.
-//     var data = e.dataTransfer;
-//     if (data.items) { // DataTransferItemList 객체 사용
-//         for (var i = 0; i < data.items.length; i++) { // DataTransferItem 객체 사용
-//             if (data.items[i].kind == "file") {
-//                 var file = data.items[i].getAsFile();
-//                 alert(file.name);
-//             }
-//         }
-//     } else { // File API 사용
-//         for (var i = 0; i < data.files.length; i++) {
-//         alert(data.files[i].name);
-//         }
-//     }
-// };
+function dragOver(e){
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.type == "dragover") {
+        $(e.target).css({
+        "background-color": "black",
+        "outline-offset": "-20px"
+        });
+    } else {
+        $(e.target).css({
+        "background-color": "white",
+        "outline-offset": "-10px"
+        });
+        }
+}
 
+function uploadFiles(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    dragOver(e);
+    
+    $(e.target).css({});
+    
+    e.dataTransfer = e.originalEvent.dataTransfer;
+    var files = e.target.files || e.dataTransfer.files;
+
+    if (files.length > 1) {
+        alert('하나만 올려라.');
+        return;
+    }
+    if (files[0].type.match(/image.*/)) {
+
+        document.querySelector("#p-canvas").setAttribute("style", "background-image: url(" + window.URL.createObjectURL(files[0]) + "); background-repeat: no-repeat; background-size: cover;");
+        
+    } else {
+        alert('이미지가 아닙니다.');
+        return;
+    }   
+}
 
 
 
