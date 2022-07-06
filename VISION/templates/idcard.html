@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}VISION | IDCARD{% endblock %}
+
+{% block script %} {% endblock %}
+
+
+
+{% block contents %}
+<div class="container border border-primary">
+    <div class="container row border border-primary">
+        <div class="container col col-12 border border-primary">
+            이미지추가버튼 & 폼
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="formImage" class="form-label">이미지 추가</label>
+                    <input class="form-control" type="image" id="formImage">
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard1">
+                    <label class="form-check-label" for="idcard">
+                        신분증
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard2">
+                    <label class="form-check-label" for="idcard">
+                        운전면허증
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard3">
+                    <label class="form-check-label" for="idcard">
+                        명함
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard4">
+                    <label class="form-check-label" for="idcard">
+                        기타
+                    </label>
+                </div>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-primary" type="button">Button</button>
+                </div>
+            </form>
+        </div>
+        <div class="container col col-12 border border-primary">
+            <div> 이미지 미리보기 </div>
+            <div>
+                <img src="..." class="img-fluid" alt="...">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container border border-primary">
+        <div>
+            엑셀파일 다운버튼
+            <button class="btn btn-primary" type="submit">Button</button>
+        </div>
+        <div>
+            엑셀파일에 들어갈 내용
+            <div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'js/idcard.js' %}"></script>
+{% endblock %}
+
