@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}IDCARD - OCR{% endblock %}
+
+{% block script %} {% endblock %}
+
+
+
+{% block contents %}
+<div class="container border border-primary">
+    <div class="container row border border-primary">
+        <div class="container col col-12 border border-primary">
+            이미지추가버튼 & 폼
+        </div>
+        <div class="container col col-6 border border-primary">
+            이미지
+        </div>
+        <div class="container col col-6 border border-primary">
+            종류선택
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container border border-primary">
+        <div>
+            엑셀파일 다운버튼
+        </div>
+        <div>
+            엑셀파일에 들어갈 내용
+        </div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'js/idcard.js' %}"></script>
+{% endblock %}
+

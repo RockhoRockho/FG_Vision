@@ -167,3 +167,13 @@ def save(request):
 
 
     return redirect('admin_form_make')
+
+
+# id OCR 페이지
+def idcard(request):
+    context ={
+
+    }
+
+
+    return render(request, 'idcard.html', context)
