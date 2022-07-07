@@ -1,13 +1,13 @@
-from http.client import HTTPResponse
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .jsonbase import JsonBase
 from .models import Document
+from .vision import vision
 import os
 import json
 import cv2
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 
 # 관리자 메인 페이지
 def admin_form_view(request):
@@ -132,11 +132,17 @@ def home(request):
                 (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
                 cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
 
-        ret, jpeg = cv2.imencode('.jpg', img1)
+        ret, _ = cv2.imencode('.jpg', img1)
         cv2.imwrite('./media/temp1.jpg', img1)
         
+        form_number = j.search_number_from_title(title)
+        
+        # form number, image
+        csv_table = vision(form_number, './media/temp1.jpg')
+
         context['ret'] = ret
         context['files'] = 'media/temp1.jpg'
+        context['csv_files'] = csv_table
 
     return render(request, 'home.html', context)
 

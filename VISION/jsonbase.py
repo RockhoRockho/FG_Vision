@@ -77,3 +77,13 @@ class JsonBase:
             json_data = json.load(f)
         json_data = sorted(json_data, key=(lambda x: x['form_title']))
         return json_data
+
+    def search_number_from_title(self, title):
+        with open(self.json_path, 'r', encoding='utf-8') as f:
+            json_data = json.load(f)
+        
+        for idx, t in enumerate(json_data):
+            if title == t['form_title']:
+                form_number = idx
+        
+        return form_number
