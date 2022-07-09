@@ -18,13 +18,13 @@
                 <label id="file-label" for="formImage" class="form-label">이미지 추가</label>
             </div>
             <div class="col-6" style="margin-bottom: 3%;">
-                <form id="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data" style="margin-left: 0;">
+                <form id="toto" name="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data" style="margin-left: 0;">
                     <div class="mb-3">
-                        <input class="form-control" type="file" id="formImage" style="display: none;">
+                        <input class="form-control" type="file" name="i-file" id="formImage" style="display: none;" onchange="readURL(this);">
                     </div>
                 </form>
                 <div class="img-box col col-12">
-                    <img src="#" class="img-fluid" style="width: 100%; height: 100%;">
+                    <img id="img-fluid" class="img-fluid" style="width: 100%; height: 100%;">
                 </div>
             </div>
             <div class="col-6" style="padding-top: 1.5%;">

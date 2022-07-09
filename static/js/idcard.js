@@ -1,3 +1,6 @@
+$(document).ready(function () {
+    new ToCSV()
+});
 class ToCSV {
     constructor() {
         // CSV 버튼에 이벤트 등록
@@ -56,5 +59,17 @@ class ToCSV {
 
         // Download CSV
         this.downloadCSV(csv.join("\n"), filename);
+    }
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('img-fluid').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        document.getElementById('img-fluid').src = "";
     }
 }

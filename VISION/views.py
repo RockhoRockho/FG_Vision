@@ -180,64 +180,31 @@ def save(request):
 def idcard(request):
     context = {}
 
-    # if request.method == "POST":
+    if request.method == "POST":
+        image = request.POST['i-file']
+        kind = request.POST['idcard']
 
-    #     title = request.POST["input_title"]
-    #     image = request.FILES['input_file']
-    #     doc = Document.objects.filter(title=title, images=image)
+        # document.images = request.FILES['i-file']
+        # document.save()
 
-    #     # 똑같은 양식명에 파일이 한개라도 있다면 overwriting
-    #     print(doc.count())
-    #     if doc.count():
-    #         doc[0].images = request.FILES['input_file']
-    #         doc[0].save()
+        context['fifi'] = image
+        context['kiki'] = kind
 
-    #     # 양식명이 똑같은 것이 없다면 new save
-    #     else:
-    #         document = Document()
-    #         document.title = title
-    #         document.images = request.FILES['input_file']
-    #         document.save()
+        if kind.count():
+            base = 'media/images/'
+            # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
+            img = cv2.imread(base + str(request.FILES['i-file']))
+
+            rett, _ = cv2.imencode('.jpg', img)
+            cv2.imwrite('./media/temp2.jpg', img)
             
-    #     context['title'] = title
+            csv_table = vision2(kind, './media/temp2.jpg')
 
-    #     # title이 없다면 여기서 그냥 return 시킨다
-    #     if title == None:
-    #         return render(request, 'home.html', context)
-
-    #     base = 'media/images/'
-    #     if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
-    #     img = cv2.imread(base + str(request.FILES['input_file']))
-    #     img1 = cv2.resize(img, (2480, 3508))
-        
-    #     # data = j.search_data(title)
-
-    #     # for i in data[0]['lot']:
-    #     #         (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
-    #     #         cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
-
-    #     ret, _ = cv2.imencode('.jpg', img1)
-    #     cv2.imwrite('./media/temp1.jpg', img1)
-        
-    #     form_number = j.search_number_from_title(title)
-        
-    #     # form number, image
-    #     # csv_table = vision(form_number, './media/temp1.jpg')
-
-    #     context['ret'] = ret
-    #     context['files'] = 'media/temp1.jpg'
-    #     # context['csv_files'] = csv_table
-
-    return render(request, 'idcard.html', context)
-
-
-    # context ={
-
-    # }
-
-
-    # return render(request, 'idcard.html', context)
-
+            context['rett'] = rett
+            context['filess'] = 'media/temp2.jpg'
+            context['csv_filess'] = csv_table
+            
+            return render(request, 'idcard.html', context)
 
 def passs(request):
     ppw = "1234"
