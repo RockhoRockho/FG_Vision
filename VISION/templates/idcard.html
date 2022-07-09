@@ -5,58 +5,88 @@
 
 {% block script %} {% endblock %}
 
-
+{% block stylesheet %}
+{% load static %}
+<link href="{% static 'css/idcard.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block contents %}
-<div class="container border border-primary">
-    <div class="container row border border-primary">
-        <div class="container col col-12 border border-primary">
-            이미지추가버튼 & 폼
-            <form action="" method="post">
-                <div class="mb-3">
-                    <label for="formImage" class="form-label">이미지 추가</label>
-                    <input class="form-control" type="image" id="formImage">
+<div class="container">
+    <div class="container row">
+        <div class="container col col-12 row">
+            <div class="col-12" style="height: 10%; padding-top: 1%;">
+                <label id="file-label" for="formImage" class="form-label">이미지 추가</label>
+            </div>
+            <div class="col-6" style="margin-bottom: 3%;">
+                <form id="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data" style="margin-left: 0;">
+                    <div class="mb-3">
+                        <input class="form-control" type="file" id="formImage" style="display: none;">
+                    </div>
+                </form>
+                <div class="img-box col col-12">
+                    <img src="#" class="img-fluid" style="width: 100%; height: 100%;">
                 </div>
+            </div>
+            <div class="col-6" style="padding-top: 1.5%;">
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="idcard" id="idcard1">
-                    <label class="form-check-label" for="idcard">
+                    <label class="form-check-label" for="idcard1">
                         신분증
                     </label>
                 </div>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="idcard" id="idcard2">
-                    <label class="form-check-label" for="idcard">
+                    <label class="form-check-label" for="idcard2">
                         운전면허증
                     </label>
                 </div>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="idcard" id="idcard3">
-                    <label class="form-check-label" for="idcard">
+                    <label class="form-check-label" for="idcard3">
                         명함
                     </label>
                 </div>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="idcard" id="idcard4">
-                    <label class="form-check-label" for="idcard">
+                    <label class="form-check-label" for="idcard4">
                         기타
                     </label>
                 </div>
-                <div class="d-grid col-6 mx-auto">
-                    <button class="btn btn-primary" type="button">Button</button>
+                <div class="d-grid col-6" style="width: 20%;">
+                    <button class="btn btn-primary" type="button" form="toto">Button</button>
                 </div>
-            </form>
-        </div>
-        <div class="container col col-12 border border-primary">
-            <div> 이미지 미리보기 </div>
-            <div>
-                <img src="..." class="img-fluid" alt="...">
             </div>
         </div>
     </div>
-
+    <div style="clear: both;"></div>
     <hr>
-
-    <div class="container border border-primary">
+    <div style="clear: both; margin-bottom: 3%;"></div>
+    <div class="four" style="width: 100%; height: 45%; margin-bottom: 50px; margin-left: 2%;">
+        <div class="down" style="width: 100%; height: 90%; padding-top: 3%;">
+            <div style="width: 100%; float: left; font-size: 20px;">분석결과
+                <button id="csvDownloadButton" class="btn btn-primary" style="height: 30px;">다운로드</button>
+                <div class="view" style="margin-top: 20px; clear: both; width: 60%; height: 500px; border: 1px solid rgb(161, 160, 160);">
+                    {% if csv_files %}
+                    <table id="mytable">
+                        <tr>
+                            <th style="width:30%;">이름</th>
+                            <th>값</th>
+                        </tr>
+                    {% for row in csv_files %}
+                        <tr>
+                            {% for key, value in row.items %}
+                            <td style="width: 30%;">{{key}}</td>
+                            <td>{{value}}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="container border border-primary">
         <div>
             엑셀파일 다운버튼
             <button class="btn btn-primary" type="submit">Button</button>
@@ -67,11 +97,18 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
+    <div style="clear: both; margin-bottom: 7%;"></div>
 
+</div>
+<div id="sidenav">
+    <div style="width: 100%; height: 100%;">
+        <div class="admin" onclick="location.href='/pass'">관리자</div>
+        <div class="pass" onclick="location.href='/'">메인</div>
+    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="{% static 'js/idcard.js' %}"></script>
+<script src="{% static '/js/idcard.js' %}"></script>
 {% endblock %}
 

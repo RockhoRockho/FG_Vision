@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .jsonbase import JsonBase
 from .models import Document
 from .vision import vision
+from django.contrib import messages
 import os
 import json
 import cv2
@@ -177,9 +178,71 @@ def save(request):
 
 # id OCR 페이지
 def idcard(request):
-    context ={
+    context = {}
 
-    }
+    # if request.method == "POST":
 
+    #     title = request.POST["input_title"]
+    #     image = request.FILES['input_file']
+    #     doc = Document.objects.filter(title=title, images=image)
+
+    #     # 똑같은 양식명에 파일이 한개라도 있다면 overwriting
+    #     print(doc.count())
+    #     if doc.count():
+    #         doc[0].images = request.FILES['input_file']
+    #         doc[0].save()
+
+    #     # 양식명이 똑같은 것이 없다면 new save
+    #     else:
+    #         document = Document()
+    #         document.title = title
+    #         document.images = request.FILES['input_file']
+    #         document.save()
+            
+    #     context['title'] = title
+
+    #     # title이 없다면 여기서 그냥 return 시킨다
+    #     if title == None:
+    #         return render(request, 'home.html', context)
+
+    #     base = 'media/images/'
+    #     if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
+    #     img = cv2.imread(base + str(request.FILES['input_file']))
+    #     img1 = cv2.resize(img, (2480, 3508))
+        
+    #     # data = j.search_data(title)
+
+    #     # for i in data[0]['lot']:
+    #     #         (x, y, w, h) = (int(i['cx'] - i['w'] / 2), int(i['cy'] - i['h'] / 2), int(i['w']), int(i['h']))
+    #     #         cv2.rectangle(img1, (x , y), (x + w, y + h), (255, 0, 0), 2)
+
+    #     ret, _ = cv2.imencode('.jpg', img1)
+    #     cv2.imwrite('./media/temp1.jpg', img1)
+        
+    #     form_number = j.search_number_from_title(title)
+        
+    #     # form number, image
+    #     # csv_table = vision(form_number, './media/temp1.jpg')
+
+    #     context['ret'] = ret
+    #     context['files'] = 'media/temp1.jpg'
+    #     # context['csv_files'] = csv_table
 
     return render(request, 'idcard.html', context)
+
+
+    # context ={
+
+    # }
+
+
+    # return render(request, 'idcard.html', context)
+
+
+def passs(request):
+    ppw = "1234"
+    if request.POST.get('password') == ppw:
+        return render(request, 'admin_form_make.html')
+    else: 
+        # messages.warning(request, "입장할 수 없습니다.")
+        return render(request, 'pass.html')
