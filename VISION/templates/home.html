@@ -14,18 +14,18 @@
 
 {% block contents %}
 <div id="container">
-    <div class="wrap">.
-        <div class="one" style="width: 30%; height: 45%;">
-            <div class="insert_img">이미지 첨부</div>
-            <div class="btndiv">
-                <form id="toPython" action="{% url 'home' %}" method="POST" enctype="multipart/form-data" name="topython">
+    <div class="wrap">
+        <div class="one" style="width: 50%; height: 60%;">
+            <!-- <div class="insert_img" style="margin-left: 0; outline: 1px solid red;">이미지 첨부</div> -->
+            <div class="btndiv" style="padding-left: 0;">
+                <form id="toPython" action="{% url 'home' %}" method="POST" enctype="multipart/form-data" name="topython" style="margin-left: 0;">
                     {% csrf_token %}
-                    <label class="file_btn" for="input_file">이미지 첨부</label>
+                    <label class="file_btn" for="input_file" style="font-family: 'GangwonEduPowerExtraBoldA';">이미지 첨부</label>
                     <input type="file" id="input_file" name="input_file" accept="image/*" style="display: none;">
                     <input type="text" id="input_title" name="input_title" style="display: none;">
                 </form>
             </div>
-            <div id="preview_list"></div>
+            <div id="preview_list" style="margin-bottom: 0px;"></div>
             <div id="preview" class="text-center">
                 {% if ret %}
                 <img src="{{ files }}" class="preview_img">
@@ -33,76 +33,82 @@
             </div>
         </div>
     
-        <div class="two" style="width: 60%; height: 45%;">
-                <div class="ans">
-                    <div style="float: left; width: 30%;">양식 자동감지 결과 :</div>
-                    <div style="float: left; width: 35%;">{{ title }}</div>
-                    <div id="title_name" style="clear: both; width: 100%; float: left; margin-top: 5%;"></div>
-                    <div style="float: left; width: 70%; margin-top: 5%;">
-                    </div>
-                    <div style="clear: both;text-align: center;">
-                        <table id="dtable" class="table table-hover" style="margin-right: 0px;margin-left: auto;">
-                            <thead style="width: 90%; border-left: none;">
-                                <tr style="width: 90%;">
-                                    <th style="width:13%; text-align: center;">No.</th>
-                                    <th style="width:48%; text-align: center;">양식명</th>
-                                    <th style="width:38%; text-align: center;">기타</th>
-                                </tr>
-                            </thead>
-
-                            <tbody style="width: 90%; border-left: none;">
-                                {% for d in jsonData %}
-                                <!-- <div> -->
-                                <tr class="form_row" onclick="myfunc()">
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ d.form_title }}</td>
-                                    <td>{{ d.form_ret }}</td>
-                                </tr>
-                                <!-- </div> -->
-                                <!-- <script language="javascript">
-                                    json_data.push(JSON.parse('{{d}}'.replace(/&#x27;/g, '\"')));
-                                </script> -->
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+        <div class="two" style="width: 45%; height: 45%; margin-left: 3%;">
+            <div class="ans" style="margin-top: 19%; font-family: 'GangwonEduPowerExtraBoldA';">
+                <div style="height: 50px; width: 100%;">
+                    <div style="float: left; width: 100%; font-size: 20px;">양식 자동감지 결과  : <strong style="color: red;">{{ title }}</strong></div>
+                    <!-- <div style="float: left; width: 35%; text-align: left;"></div> -->
                 </div>
-            <button id="onoff">자동감지 시작</button>    
-            <button type="submit" form="toPython" id="button" class="button" disabled="true">적용하기</button>
-        </div>
-        <div class="three" style="width: 10%; height: 45%; margin-bottom: 5%;">
-            <p>번역</p>
-            <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <hr>
-        <div class="four" style="border-top: 1px solid #000; width: 90%; margin-top: 10%; height: 45%;">
-            <div class="down" style="width: 100%;">
-                <div style="width: 100%; float: left;">분석결과
-                    <button id="csvDownloadButton">다운로드</button>
-                    <div class="view" style="margin-top: 40px; clear: both; width: 100%; height: 500px; border: 1px solid green;">
-                    {% if csv_files %}
-                    <table id="mytable">
-                        <th>
-                            <td>이름</td>
-                            <td>값</td>
-                        </th>
-                    {% for row in csv_files %}
-                        <tr>
-                            {% for key, value in row.items %}
-                            <td>{{key}}</td>
-                            <td>{{value}}</td>
+                <div style="width: 100%; height: 60px; margin-bottom: 0px; font-size: 18px;">
+                    <div id="wrap-loading" style="float: left;">
+                        <img id="loading" src="/static/img/loading.gif" alt="Loading..." />
+                    </div>
+                    <button id="onoff" style="margin-top: 10px; margin-right: 0px;">자동감지 시작</button>   
+                    <button type="submit" form="toPython" id="button" class="button" disabled="true" style="margin-top: 10px; margin-right: 10px;">적용하기</button>
+                </div>
+                <div id="title_name" style="clear: both; width: 100%; float: left; font-size: 20px; margin-top: 5%;"></div>
+                <div style="float: left; width: 70%; margin-top: 0%; margin-bottom: 2%;">
+                </div>
+                <div style="clear: both;text-align: center;">
+                    <table id="dtable" class="table table-hover" style="width: 100%; margin-right: 0px;margin-left: auto;">
+                        <thead style="width: 90%; border-left: none; background-color: rgb(92, 92, 92); color: white;">
+                            <tr style="width: 90%;">
+                                <th style="width:13%; text-align: center;">No.</th>
+                                <th style="width:48%; text-align: center;">양식명</th>
+                                <th style="width:38%; text-align: center;">등록 일자</th>
+                            </tr>
+                        </thead>
+
+                        <tbody style="width: 100%; border-left: none; border: 1px solid gray;">
+                            {% for d in jsonData %}
+                            <!-- <div> -->
+                            <tr class="form_row" onclick="myfunc()">
+                                <td>{{ forloop.counter }}</td>
+                                <td style="border-top: none;">{{ d.form_title }}</td>
+                                <td>{{ d.form_ret }}</td>
+                            </tr>
+                            <!-- </div> -->
+                            <!-- <script language="javascript">
+                                json_data.push(JSON.parse('{{d}}'.replace(/&#x27;/g, '\"')));
+                            </script> -->
                             {% endfor %}
-                        </tr>
-                    {% endfor %}
+                        </tbody>
                     </table>
-                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="four" style="border-top: 1px solid #000; width: 100%; margin-top: 13%; height: 45%; margin-bottom: 50px; font-family: 'GangwonEduPowerExtraBoldA';">
+            <div class="down" style="width: 100%; height: 90%; padding-top: 3%;">
+                <div style="width: 100%; float: left; font-size: 20px;">분석결과
+                    <button id="csvDownloadButton" class="btn btn-primary" style="height: 30px;">다운로드</button>
+                    <div class="view" style="margin-top: 20px; clear: both; width: 60%; height: 500px; border: 1px solid rgb(161, 160, 160);">
+                        {% if csv_files %}
+                        <table id="mytable">
+                            <tr>
+                                <th style="width:30%;">이름</th>
+                                <th>값</th>
+                            </tr>
+                        {% for row in csv_files %}
+                            <tr>
+                                {% for key, value in row.items %}
+                                <td style="width: 30%;">{{key}}</td>
+                                <td>{{value}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </table>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+    </divv>
+</div>
+<div style="clear: both;"></div>
+<div id="sidenav">
+    <div style="width: 100%; height: 100%;">
+        <div class="admin" onclick="location.href='pass'">관리자</div>
+        <div class="pass" onclick="location.href='idcard'">신분증</div>
     </div>
 </div>
 <div style="clear: both;"></div>
