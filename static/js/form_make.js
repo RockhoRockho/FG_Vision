@@ -126,7 +126,7 @@ function dataToTable(d){
             } else {
                 input_tag.setAttribute('type', 'number');
             }
-            input_tag.setAttribute('class', 'form-control');
+            input_tag.setAttribute('class', 'form-control p-1');
             input_tag.setAttribute('value', d[i][label_list[j]]);
             td_tag.appendChild(input_tag);
         }
