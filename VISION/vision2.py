@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+import sys, os
 import cv2
 import pytesseract
+import csv
 import numpy as np
 import re
 
@@ -19,8 +22,20 @@ def order_points(pta):
 #import할거는 여기있는거 지우고 다 views에 넣을 계획
 #원래는 파라미터에 img를 넣을 계획인데 현재는 cmd에서 테스트 하고있어서 뺏다
 #사진, (민증 0, 여권 1)
-def vision2(form2, src):
+def vision2(form2, image):
 
+    #json 부르고
+    # form2 = 0
+#     cap = cv2.VideoCapture(0)
+
+#     if not cap.isOpened():
+#         print('Camera Open Fail!')
+#     else:
+#         # 한장 가져오기
+#         _, src = cap.read()
+#         if src is None:
+#             print('읽어오기 실패')
+    src = cv2.imread(image)
     src_gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
     th, src_bin = cv2.threshold(src_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     cnts, _ = cv2.findContours(src_bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -69,13 +84,11 @@ def vision2(form2, src):
     dst_rgb = cv2.cvtColor(warped, cv2.COLOR_BGR2RGB)
     if form2 == 0:
         text = pytesseract.image_to_string(dst_rgb, lang='hangul')
-        text = re.sub('[=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\[\]\<\>`\'…》¢]','', text)
-        text = re.sub('[a-zA-Z]','', text)
-        jnum = re.search('(\d{6}[ ,-]-?[1-4]\d{6})|(\d{6}[ ,-]?[1-4])', text).group()
+        text = re.sub('[=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》¢]','', text)
         text = text.replace(' ', '')
         f = text.split('\n')
         f = [i for i in f if i] 
-        final = [{'성명': f[2][0:f[2].index('(')]}, {'주민등록번호': jnum}, {'주소': f[4]+f[5]+f[6]}, {'발급일': f[7]}]
+        final = [['성명', f[2][0:int(len(f[2])/2)]], ['주민등록번호', f[3]], ['주소', f[4]+f[5]+f[6]], ['발급일', f[7]]]
     else:
         text = pytesseract.image_to_string(dst_rgb, lang='hangul+eng')
         text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》¢]','', text)
@@ -84,6 +97,12 @@ def vision2(form2, src):
         f = text.split('\n')
         f = [i for i in f if i]
             
-        final = [{'여권번호': pnum}, {'성': f[-15]}, {'이름': f[-13]}, {'생년월일': f[-9][0:9]}, {'주민등록번호': f[-9][9:]}, {'성별': f[-7]}, {'발급일': f[-5][0:9]}, {'기간만료일': f[-3][0:9]}]
+        final = [['여권번호', pnum], ['성', f[3]], ['이름', f[5]], ['생년월일', f[9][0:9]], ['주민등록번호', f[9][9:]], ['성별', f[11]], ['발급일', f[13][0:9]], ['기간만료일', f[15][0:9]]]
+    
+    with open('id1.csv', 'w', encoding='euc-kr', newline='') as f:
+        writer = csv.writer(f)
+        #한줄 넣는다
+        writer.writerows(final)
 
-    return final
+if __name__ == '__main__':
+    vision2()

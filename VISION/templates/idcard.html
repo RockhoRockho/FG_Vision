@@ -19,8 +19,9 @@
             </div>
             <div class="col-6" style="margin-bottom: 3%;">
                 <form id="toto" name="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data" style="margin-left: 0;">
+                    {% csrf_token %}
                     <div class="mb-3">
-                        <input class="form-control" type="file" name="i-file" id="formImage" style="display: none;" onchange="readURL(this);">
+                        <input class="form-control" type="file" name="ifile" id="ifile" style="display: none;" onchange="readURL(this);">
                     </div>
                 </form>
                 <div class="img-box col col-12">
@@ -29,21 +30,21 @@
             </div>
             <div class="col-6" style="padding-top: 1.5%;">
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" name="idcard" id="idcard1">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard1" value="0">
                     <label class="form-check-label" for="idcard1">
                         신분증
                     </label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" name="idcard" id="idcard2">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard2" value="1">
                     <label class="form-check-label" for="idcard2">
                         운전면허증
                     </label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" name="idcard" id="idcard3">
+                    <input type="radio" class="form-check-input" name="idcard" id="idcard3" value="2">
                     <label class="form-check-label" for="idcard3">
-                        명함
+                        여권
                     </label>
                 </div>
                 <div class="form-check">
@@ -53,7 +54,7 @@
                     </label>
                 </div>
                 <div class="d-grid col-6" style="width: 20%;">
-                    <button class="btn btn-primary" type="button" form="toto">Button</button>
+                    <button class="btn btn-primary" type="submit" form="toto">Button</button>
                 </div>
             </div>
         </div>
