@@ -161,6 +161,10 @@ def save(request):
     }
 
     for d in data_lot:
+        d["x"] *= 2
+        d["y"] *= 2
+        d["w"] *= 2
+        d["h"] *= 2
         data["lot"].append(d)
 
     print(data)
@@ -170,8 +174,6 @@ def save(request):
         print('\nsave\n')
     else:
         print('\nfail\n')
-
-
 
     return redirect('admin_form_make')
 
