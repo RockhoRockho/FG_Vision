@@ -192,7 +192,7 @@ function submitBtn() {
 
 // 이미지 추가=
 // drawImage(image, x, y, width, height);=
-$('#drop')
+$('#p-canvas')
     .on("dragover", dragOver)
     .on("dragleave", dragOver)
     .on("drop", uploadFiles);
