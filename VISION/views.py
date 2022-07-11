@@ -57,20 +57,20 @@ def home(request):
 
         title = request.POST["input_title"]
         image = request.FILES['input_file']
-        doc = Document.objects.filter(title=title, images=image)
+        print(image)
+        doc = Document.objects.filter(images=image)
 
         # 똑같은 양식명에 파일이 한개라도 있다면 overwriting
-        print(doc.count())
-        if doc.count():
-            doc[0].images = request.FILES['input_file']
-            doc[0].save()
+        # if doc.count():
+        #     doc[0].images = request.FILES['input_file']
+        #     doc[0].save()
 
         # 양식명이 똑같은 것이 없다면 new save
-        else:
-            document = Document()
-            document.title = title
-            document.images = request.FILES['input_file']
-            document.save()
+        # else:
+        document = Document()
+        document.title = title
+        document.images = request.FILES['input_file']
+        document.save()
 
     
         # input_title이 없을때 자동인식 실시
@@ -104,11 +104,10 @@ def home(request):
 
                 title = pytesseract.image_to_string(cv2.cvtColor(img_th, cv2.COLOR_BGR2RGB), config=options, lang='Hangul')
                 title = title.replace(' ', '').replace('\n', '')
-                print(title)
 
                 # 파일에 일치하는 제목을 찾는다면 아까 빈파일에 저장한 값에 overwriting 한다
                 if title in titles:
-                    doc = Document.objects.get(images=('images/' + str(request.FILES['input_file'])))
+                    doc = Document.objects.last()
                     doc.title = title
                     doc.save()
                     break
