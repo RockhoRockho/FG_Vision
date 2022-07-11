@@ -22,10 +22,10 @@ def order_points(pta):
 #import할거는 여기있는거 지우고 다 views에 넣을 계획
 #원래는 파라미터에 img를 넣을 계획인데 현재는 cmd에서 테스트 하고있어서 뺏다
 #사진, (민증 0, 여권 1)
-def vision2(form2, image):
+def vision2(image):
 
     #json 부르고
-    # form2 = 0
+    form2 = 0
 #     cap = cv2.VideoCapture(0)
 
 #     if not cap.isOpened():

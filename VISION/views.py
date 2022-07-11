@@ -181,32 +181,32 @@ def idcard(request):
     context = {}
 
     if request.method == "POST":
-        image = request.POST["ifile"]
+        image = request.FILES["ifile"]
         # image = request.FILES['input_file']
-        kind = request.POST['idcard']
+        # kind = request.POST['idcard']
 
-        document = Document()
-        document.images = request.FILES['ifile']
-        document.save()
+        # document = Document()
+        # document.images = request.FILES['ifile']
+        # document.save()
 
-        context['fifi'] = image
-        context['kiki'] = kind
+        # context['fifi'] = image
+        # context['kiki'] = kind
 
         # if kind.count():
-        #     base = 'media/images/'
+        base = 'media/images/'
         #     # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
-        #     img = cv2.imread(base + str(request.FILES['i-file']))
+        image = cv2.imread(base + str(request.FILES['ifile']))
 
-        rett, _ = cv2.imencode('.jpg', image)
+        # rett, _ = cv2.imencode('.jpg', image)
         cv2.imwrite('./media/temp2.jpg', image)
             
-        csv_table = vision2(kind, './media/temp2.jpg')
-        context['rett'] = rett
+        csv_table = vision2('./media/temp2.jpg')
+        # context['rett'] = rett
         context['filess'] = 'media/temp2.jpg'
         context['csv_filess'] = csv_table
             
     return render(request, 'idcard.html', context)
-
+    
 def passs(request):
     ppw = "1234"
     if request.POST.get('password') == ppw:

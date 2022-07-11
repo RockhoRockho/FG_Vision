@@ -21,7 +21,7 @@
                 <form id="toto" name="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data" style="margin-left: 0;">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <input class="form-control" type="file" name="ifile" id="ifile" style="display: none;" onchange="readURL(this);">
+                        <input class="form-control" type="file" name="ifile" id="formImage" style="display: none;" onchange="readURL(this);">
                     </div>
                 </form>
                 <div class="img-box col col-12">
