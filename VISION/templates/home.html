@@ -21,7 +21,7 @@
                 <form id="toPython" action="{% url 'home' %}" method="POST" enctype="multipart/form-data" name="topython" style="margin-left: 0;">
                     {% csrf_token %}
                     <label class="file_btn" for="input_file" style="font-family: 'GangwonEduPowerExtraBoldA';">이미지 첨부</label>
-                    <input type="file" id="input_file" name="input_file" accept="image/*" style="display: none;">
+                    <input type="file" id="input_file" name="input_file" accept="image/*" style="display: none;" required>
                     <input type="text" id="input_title" name="input_title" style="display: none;">
                 </form>
             </div>
@@ -43,7 +43,7 @@
                     <div id="wrap-loading" style="float: left;">
                         <img id="loading" src="/static/img/loading.gif" alt="Loading..." />
                     </div>
-                    <button id="onoff" style="margin-top: 10px; margin-right: 0px;">자동감지 시작</button>   
+                    <button id="onoff" style="margin-top: 10px; margin-right: 0px; background-color:red; border: 3px solid black;">자동감지중</button>   
                     <button type="submit" form="toPython" id="button" class="button" disabled="true" style="margin-top: 10px; margin-right: 10px;">적용하기</button>
                 </div>
                 <div id="title_name" style="clear: both; width: 100%; float: left; font-size: 20px; margin-top: 5%;"></div>
