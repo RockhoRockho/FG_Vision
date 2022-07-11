@@ -3,6 +3,8 @@ import pytesseract
 import numpy as np
 import re
 
+from regex import F
+
 def order_points(pta):
     rect = np.zeros((4, 2), dtype=np.float32)
     
@@ -20,7 +22,7 @@ def order_points(pta):
 #원래는 파라미터에 img를 넣을 계획인데 현재는 cmd에서 테스트 하고있어서 뺏다
 #사진, (민증 0, 여권 1)
 def vision2(form2, src):
-
+    src = cv2.imread(src)
     src_gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
     th, src_bin = cv2.threshold(src_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     cnts, _ = cv2.findContours(src_bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -68,19 +70,28 @@ def vision2(form2, src):
     warped = cv2.cvtColor(warped, cv2.COLOR_HSV2RGB)
     dst_rgb = cv2.cvtColor(warped, cv2.COLOR_BGR2RGB)
     if form2 == 0:
+        nindex = -1
+        jindex = -1
+        name = ''
+        juso = ''
+        balgup = ''
         text = pytesseract.image_to_string(dst_rgb, lang='hangul')
         text = re.sub('[=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\[\]\<\>`\'…》¢]','', text)
         text = re.sub('[a-zA-Z]','', text)
         jnum = re.search('(\d{6}[ ,-]-?[1-4]\d{6})|(\d{6}[ ,-]?[1-4])', text).group()
         text = text.replace(' ', '')
         f = text.split('\n')
-        f = [i for i in f if i] 
-        for i in range(len(f)):
-            jindex = f[i].find(jnum)
-            if jindex == 1:
-                juso = f[i+1]+f[i+2]+f[i+3]
-                balgup = f[i+4]
-        final = [{'성명': f[2][0:f[2].index('(')]}, {'주민등록번호': jnum}, {'주소': juso}, {'발급일': balgup}]
+        f = [i for i in f if i]
+        for i in range(3):
+            nindex = f[i].find('(')
+            if nindex > 0:
+                name = f[i][0:f[i].index('(')]
+        for i in range(3, len(f)):
+            jindex = f[i].find('(')
+            if jindex >= 0:
+                juso = f[i-1] + f[i] + f[i+1]
+                balgup = f[i+2]
+        final = [{'성명': name}, {'주민등록번호': jnum}, {'주소': juso}, {'발급일': balgup}]
     else:
         text = pytesseract.image_to_string(dst_rgb, lang='hangul+eng')
         text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》¢]','', text)
