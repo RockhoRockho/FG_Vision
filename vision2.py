@@ -75,7 +75,12 @@ def vision2(form2, src):
         text = text.replace(' ', '')
         f = text.split('\n')
         f = [i for i in f if i] 
-        final = [{'성명': f[2][0:f[2].index('(')]}, {'주민등록번호': jnum}, {'주소': f[4]+f[5]+f[6]}, {'발급일': f[7]}]
+        for i in range(len(f)):
+            jindex = f[i].find(jnum)
+            if jindex == 1:
+                juso = f[i+1]+f[i+2]+f[i+3]
+                balgup = f[i+4]
+        final = [{'성명': f[2][0:f[2].index('(')]}, {'주민등록번호': jnum}, {'주소': juso}, {'발급일': balgup}]
     else:
         text = pytesseract.image_to_string(dst_rgb, lang='hangul+eng')
         text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》¢]','', text)
