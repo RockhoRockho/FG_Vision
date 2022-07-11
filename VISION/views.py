@@ -185,6 +185,7 @@ def idcard(request):
     if request.method == "POST":
         image = request.FILES["ifile"]
         kind = request.POST['idcard']
+        
 
         document = Document()
         document.title = kind
@@ -202,10 +203,11 @@ def idcard(request):
 
         if ret:
             cv2.imwrite('./media/temp2.jpg', img)
-            
             csv_table = vision2(int(last_num), './media/temp2.jpg')
-            context['files'] = 'media/temp2.jpg'
+            # csv_image = vision3('./media/temp2.jpg')
+            context['files'] = '/media/temp2.jpg'
             context['csv_files'] = csv_table
+            # context['image'] = csv_image
             
     return render(request, 'idcard.html', context)
     

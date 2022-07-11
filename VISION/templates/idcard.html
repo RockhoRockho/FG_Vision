@@ -14,17 +14,23 @@
 <div class="container">
     <div class="container row">
         <div class="container col col-12 row">
-            <form id="toto" name="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data" style="margin-left: 0;">
-            {% csrf_token %}
-            <div class="col-12" style="height: 10%; padding-top: 1%;">
-                <label id="file-label" for="formImage" class="form-label">이미지 추가</label>
-            </div>
-            <div class="col-6" style="margin-bottom: 3%;">
+            <form id="toto" class="row" name="toto" action="{% url 'idcard' %}" method="POST" enctype="multipart/form-data"
+                style="margin-left: 0;">
+                {% csrf_token %}
+                <div class="col-12" style="height: 10%; padding-top: 1%;">
+                    <label id="file-label" for="formImage" class="form-label">이미지 추가</label>
+                </div>
+                <div class="col-6" style="margin-bottom: 3%;">
                     <div class="mb-3">
-                        <input class="form-control" type="file" name="ifile" id="formImage" style="display: none;" onchange="readURL(this);">
+                        <input class="form-control" type="file" name="ifile" id="formImage" style="display: none;"
+                            onchange="readURL(this);">
                     </div>
                     <div class="img-box col col-12">
+                        {% if csv_files %}
+                        <img id="img-fluid" src="{{ image }}" class="img-fluid" style="width: 100%; height: 100%;">
+                        {% else %}
                         <img id="img-fluid" class="img-fluid" style="width: 100%; height: 100%;">
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-6" style="padding-top: 1.5%;">
@@ -34,60 +40,49 @@
                             신분증
                         </label>
                     </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="idcard" id="idcard2" value="1">
-                    <label class="form-check-label" for="idcard2">
-                        운전면허증
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="idcard" id="idcard3" value="2">
-                    <label class="form-check-label" for="idcard3">
-                        여권
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" name="idcard" id="idcard4">
-                    <label class="form-check-label" for="idcard4">
-                        기타
-                    </label>
-                </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="idcard" id="idcard3" value="2">
+                        <label class="form-check-label" for="idcard3">
+                            여권
+                        </label>
+                    </div>
             </form>
-                <div class="d-grid col-6" style="width: 20%;">
-                    <button class="btn btn-primary" type="submit" form="toto">Button</button>
-                </div>
+            <div class="d-grid col-6" style="width: 20%;">
+                <button class="btn btn-primary" type="submit" form="toto">Button</button>
             </div>
         </div>
     </div>
-    <div style="clear: both;"></div>
-    <hr>
-    <div style="clear: both; margin-bottom: 3%;"></div>
-    <div class="four" style="width: 100%; height: 45%; margin-bottom: 50px; margin-left: 2%;">
-        <div class="down" style="width: 100%; height: 90%; padding-top: 3%;">
-            <div style="width: 100%; float: left; font-size: 20px;">분석결과
-                <button id="csvDownloadButton" class="btn btn-primary" style="height: 30px;">다운로드</button>
-                <div class="view" style="margin-top: 20px; clear: both; width: 60%; height: 500px; border: 1px solid rgb(161, 160, 160);">
-                    {% if csv_files %}
-                    <table id="mytable">
-                        <tr>
-                            <th style="width:30%;">이름</th>
-                            <th>값</th>
-                        </tr>
+</div>
+<div style="clear: both;"></div>
+<hr>
+<div style="clear: both; margin-bottom: 3%;"></div>
+<div class="four" style="width: 100%; height: 45%; margin-bottom: 50px; margin-left: 2%;">
+    <div class="down" style="width: 100%; height: 90%; padding-top: 3%;">
+        <div style="width: 100%; float: left; font-size: 20px;">분석결과
+            <button id="csvDownloadButton" class="btn btn-primary" style="height: 30px;">다운로드</button>
+            <div class="view"
+                style="margin-top: 20px; clear: both; width: 60%; height: 500px; border: 1px solid rgb(161, 160, 160);">
+                {% if csv_files %}
+                <table id="mytable">
+                    <tr>
+                        <th style="width:30%;">이름</th>
+                        <th>값</th>
+                    </tr>
                     {% for row in csv_files %}
-                        <tr>
-                            {% for key, value in row.items %}
-                            <td style="width: 30%;">{{key}}</td>
-                            <td>{{value}}</td>
-                            {% endfor %}
-                        </tr>
+                    <tr>
+                        {% for key, value in row.items %}
+                        <td style="width: 30%;">{{key}}</td>
+                        <td>{{value}}</td>
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                    </table>
-                    {% endif %}
-                </div>
+                </table>
+                {% endif %}
             </div>
         </div>
     </div>
-    <!-- <div class="container border border-primary">
+</div>
+<!-- <div class="container border border-primary">
         <div>
             엑셀파일 다운버튼
             <button class="btn btn-primary" type="submit">Button</button>
@@ -99,12 +94,12 @@
             </div>
         </div>
     </div> -->
-    <div style="clear: both; margin-bottom: 7%;"></div>
+<div style="clear: both; margin-bottom: 7%;"></div>
 
 </div>
 <div id="sidenav">
     <div style="width: 100%; height: 100%;">
-        <div class="admin" onclick="location.href='/pass_s'">관리자</div>
+        <div class="admin" onclick="location.href='/pass'">관리자</div>
         <div class="pass" onclick="location.href='/'">메인</div>
     </div>
 </div>
@@ -112,4 +107,3 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{% static '/js/idcard.js' %}"></script>
 {% endblock %}
-
