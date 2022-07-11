@@ -11,14 +11,15 @@ class JsonBase:
 
     # data 추가 후 저장
     # json_data를 파일로 저장
-    # ret의 내림차순으로 정렬해서 저장
+    # 이름순으로 정렬해서 저장
     def update_data(self, data):
         with open(self.json_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
 
         json_data.append(data)
 
-        json_data = sorted(json_data, key=(lambda x: x["form_ret"]), reverse=True)
+        # json_data = sorted(json_data, key=(lambda x: x["form_ret"]), reverse=True)
+        json_data = sorted(json_data, key=(lambda x: x['form_title']))
 
         with open(self.json_path, 'w', encoding='utf-8') as f:
             json.dump(json_data, f, indent="\t", ensure_ascii=False)
@@ -75,7 +76,7 @@ class JsonBase:
     def all_data(self):
         with open(self.json_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
-        json_data = sorted(json_data, key=(lambda x: x['form_title']))
+        # json_data = sorted(json_data, key=(lambda x: x['form_title']))
         return json_data
 
     def search_number_from_title(self, title):
