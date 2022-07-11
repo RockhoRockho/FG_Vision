@@ -191,15 +191,19 @@ def idcard(request):
         document.images = request.FILES['ifile']
         document.save()
 
+        last_img = 'media/' + str(Document.objects.last().images)
+        last_num = Document.objects.last().title
+
+
         # if kind.count():
         #     # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
-        image = cv2.imread('media/' + str(request.FILES['ifile']))
+        img = cv2.imread(last_img)
+        ret, _ = cv2.imencode('.jpg', img)
 
-        ret, _ = cv2.imencode('.jpg', image)
         if ret:
-            cv2.imwrite('./media/temp2.jpg', image)
+            cv2.imwrite('./media/temp2.jpg', img)
             
-            csv_table = vision2('./media/temp2.jpg')
+            csv_table = vision2(last_num, './media/temp2.jpg')
             context['files'] = 'media/temp2.jpg'
             context['csv_files'] = csv_table
             
