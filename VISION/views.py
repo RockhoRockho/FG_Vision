@@ -139,7 +139,7 @@ def home(request):
         form_number = j.search_number_from_title(title)
         
         # form number, image
-        csv_table = vision(form_number, './media/temp1.jpg')
+        csv_table = vision(form_number, (base + str(request.FILES['input_file'])))
 
         context['ret'] = ret
         context['files'] = 'media/temp1.jpg'

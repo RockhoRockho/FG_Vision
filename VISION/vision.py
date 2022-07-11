@@ -106,7 +106,7 @@ def vision(form, image):
             boxes = filtered;
 
             # go through the boxes and start merging
-            merge_margin = 9;
+            merge_margin = 11;
 
             # this is gonna take a long time
             finished = False;
@@ -201,7 +201,7 @@ def vision(form, image):
 
                 img_cropped = cv2.getRectSubPix(
                         bbb,
-                        patchSize=((j[1][0] - j[0][0]+40), (j[1][1] - j[0][1])+40),
+                        patchSize=((j[1][0] - j[0][0]+30), (j[1][1] - j[0][1])+30),
                         center=(((j[1][0] + j[0][0]) / 2), ((j[1][1] + j[0][1]) / 2)),
                 )
 
@@ -212,10 +212,9 @@ def vision(form, image):
                 x = x / 255.
                 y = model.predict(x).squeeze()
                 result = tf.argmax(y)
-                text += (idx2char[result])
+                text += (idx2char[result])  
         #csv에 넣을 한줄
         final.append({f"{label}" : f"{text}"})
-    
-    print(final)
 
+    print(final)
     return final
