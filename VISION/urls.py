@@ -11,7 +11,7 @@ urlpatterns = [
     path('save/', views.save, name='save'),
     path('idcard/', views.idcard, name='idcard'),
     path('test/', views.test, name='test'),
-    path('pass/', views.passs, name='pass')
+    path('pass_s/', views.pass_s, name='pass_s')
 ]
 
 if settings.DEBUG: 

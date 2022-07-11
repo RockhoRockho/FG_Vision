@@ -184,35 +184,31 @@ def idcard(request):
 
     if request.method == "POST":
         image = request.FILES["ifile"]
-        # image = request.FILES['input_file']
-        # kind = request.POST['idcard']
+        kind = request.POST['idcard']
 
-        # document = Document()
-        # document.images = request.FILES['ifile']
-        # document.save()
-
-        # context['fifi'] = image
-        # context['kiki'] = kind
+        document = Document()
+        document.title = kind
+        document.images = request.FILES['ifile']
+        document.save()
 
         # if kind.count():
-        base = 'media/images/'
         #     # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
-        image = cv2.imread(base + str(request.FILES['ifile']))
+        image = cv2.imread('media/' + str(request.FILES['ifile']))
 
-        # rett, _ = cv2.imencode('.jpg', image)
-        cv2.imwrite('./media/temp2.jpg', image)
+        ret, _ = cv2.imencode('.jpg', image)
+        if ret:
+            cv2.imwrite('./media/temp2.jpg', image)
             
-        csv_table = vision2('./media/temp2.jpg')
-        # context['rett'] = rett
-        context['filess'] = 'media/temp2.jpg'
-        context['csv_filess'] = csv_table
+            csv_table = vision2('./media/temp2.jpg')
+            context['files'] = 'media/temp2.jpg'
+            context['csv_files'] = csv_table
             
     return render(request, 'idcard.html', context)
     
-def passs(request):
+def pass_s(request):
     ppw = "1234"
     if request.POST.get('password') == ppw:
         return render(request, 'admin_form_make.html')
     else: 
         # messages.warning(request, "입장할 수 없습니다.")
-        return render(request, 'pass.html')
+        return render(request, 'pass_s.html')

@@ -7,14 +7,14 @@
 {% block contents %}
 <br><br><br><br><br><br><br>
 <div style="width: 100%; height: 350px;">
-    <!-- <form id="pas" name="pas" action="{% url 'pass' %}" method="POST"></form> -->
-    <form id="pas" action="{% url 'pass' %}" method="POST" enctype="multipart/form-data" name="pas" style="margin-left: 0;">
+    <!-- <form id="pas" name="pas" action="{% url 'pass_s' %}" method="POST"></form> -->
+    <form id="pass_form" action="{% url 'pass_s' %}" method="POST" enctype="multipart/form-data" name="pass_form" style="margin-left: 0;">
         {% csrf_token %}
         <div style="width: 20%; height: 30px; margin: auto; float: left; margin-left: 40%;">
             <div style="width: 20%; height: 100%; float: left; text-align: center; background-color: rgb(0, 0, 0); color: white; margin: 0;">Password</div>
             <input style="float: left; height: 100%; width: 80%; margin: 0;" type="password" name="password">
         </div>
-        <button type="submit" form="pas" id="button" class="btn-success" style=" float: left;">적용하기</button>
+        <button type="submit" form="pass_form" id="button" class="btn-success" style=" float: left;">적용하기</button>
         <!-- <input type="submit" value="이동"> -->
     </form>
 </div>
