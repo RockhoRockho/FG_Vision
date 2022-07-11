@@ -95,6 +95,8 @@ def vision2(form2, src):
     else:
         text = pytesseract.image_to_string(dst_rgb, lang='hangul+eng')
         text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》¢]','', text)
+        text = re.sub('[a-z]', '', text)
+        text = re.sub('[«]', '', text)
         pnum = re.search('([a-zA-Z]{1}|[a-zA-Z]{2})\d{8}', text).group()
         text = text.replace(' ', '')
         f = text.split('\n')

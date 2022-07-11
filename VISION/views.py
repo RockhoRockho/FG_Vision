@@ -203,7 +203,7 @@ def idcard(request):
         if ret:
             cv2.imwrite('./media/temp2.jpg', img)
             
-            csv_table = vision2(last_num, './media/temp2.jpg')
+            csv_table = vision2(int(last_num), './media/temp2.jpg')
             context['files'] = 'media/temp2.jpg'
             context['csv_files'] = csv_table
             
