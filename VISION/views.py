@@ -180,31 +180,31 @@ def save(request):
 def idcard(request):
     context = {}
 
-    if request.method == "POST":
-        image = request.POST['i-file']
-        kind = request.POST['idcard']
+    # if request.method == "POST":
+    #     image = request.POST['i-file']
+    #     kind = request.POST['idcard']
 
-        # document.images = request.FILES['i-file']
-        # document.save()
+    #     # document.images = request.FILES['i-file']
+    #     # document.save()
 
-        context['fifi'] = image
-        context['kiki'] = kind
+    #     context['fifi'] = image
+    #     context['kiki'] = kind
 
-        if kind.count():
-            base = 'media/images/'
-            # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
-            img = cv2.imread(base + str(request.FILES['i-file']))
+    #     if kind.count():
+    #         base = 'media/images/'
+    #         # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
+    #         img = cv2.imread(base + str(request.FILES['i-file']))
 
-            rett, _ = cv2.imencode('.jpg', img)
-            cv2.imwrite('./media/temp2.jpg', img)
+    #         rett, _ = cv2.imencode('.jpg', img)
+    #         cv2.imwrite('./media/temp2.jpg', img)
             
-            csv_table = vision2(kind, './media/temp2.jpg')
+    #         csv_table = vision2(kind, './media/temp2.jpg')
 
-            context['rett'] = rett
-            context['filess'] = 'media/temp2.jpg'
-            context['csv_filess'] = csv_table
+    #         context['rett'] = rett
+    #         context['filess'] = 'media/temp2.jpg'
+    #         context['csv_filess'] = csv_table
             
-            return render(request, 'idcard.html', context)
+    return render(request, 'idcard.html', context)
 
 def passs(request):
     ppw = "1234"

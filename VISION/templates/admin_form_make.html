@@ -16,9 +16,24 @@
 
 {% block contents %}
 <!-- border border-primary 삭제하면 테두리 없어짐 -->
+
+<style>
+    @font-face {
+        font-family: 'GangwonEduPowerExtraBoldA';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduPowerExtraBoldA.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    body{
+        font-family: 'GangwonEduPowerExtraBoldA';
+    }
+    .m-3 {
+        margin: 0rem!important;
+    }
+</style>
 <br><br><br>
-<div class="container border border-primary">
-    <div class="container m-1 border border-primary">
+<div class="container" style="padding: 0;">
+    <div class="container m-1">
         <div>
             <form action="{% url 'save' %}" method="post" id="data_form">
                 {% csrf_token %}
@@ -38,60 +53,61 @@
             </form>
         </div>
     </div>
-    <div class="container row m-1 border border-primary position-relative">
+    <div class="container row m-1 position-relative" style="padding: 0; width: 100%;">
         <!-- 캠버스 -->
-        <div class="container m-3 border border-primary" id="drop">
-            <canvas id="p-canvas" class="m-1 border border-primary" width="420" height="594"></canvas>
-        </div>
-        <div class=""></div>
-
-        <div class="container m-3 border border-primary">
-            좌표값 입력 부분(일정크기 넘어가면 세로 스크롤)
-            <div class="container">
-                <!-- 테이블 -->
-                <table class="table m-1 table-hover" id="data-table">
-                    <thead>
-                        <tr>
-                            <td>label</td>
-                            <td>x</td>
-                            <td>y</td>
-                            <td>w</td>
-                            <td>h</td>
-                            <td>type</td>
-                            <td>삭제</td>
-                        </tr>
-                    </thead>
-                    <tbody id="data_tr">
-                        {% for box in boxData %}
-                        <tr class="data_box" value="{{forloop.counter0}}" onclick="clickTr(this)">
-                            <td><input type="text" class="form-control" value="{{box.label}}"></td>
-                            <td><input type="number" class="form-control" value="{{box.x}}"></td>
-                            <td><input type="number" class="form-control" value="{{box.y}}"></td>
-                            <td><input type="number" class="form-control" value="{{box.w}}"></td>
-                            <td><input type="number" class="form-control" value="{{box.h}}"></td>
-                            <td><input type="text" class="form-control" value="{{box.type}}"></td>
-                            <td><button class="btn btn-light del_tr" value="{{forloop.counter0}}" onclick="delTabelData(this.value)">del</button></td>
-                        </tr>
-                        <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
-                        {% endfor %}
-                        <tr>
-                            <td colspan="7" class="text-center">
-                                <button class="btn btn-light" id="plus_tr" onclick="createTableData()">plus</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="m-1">
-                    <div class=" d-grid gap-2"> 
-                        <button class="btn btn-primary" id="table_submit">적용</button>
+        <div class="container m-3" id="drop" style="padding: 0; margin: 0; width: 98%;">
+            <canvas style="float: left; margin-left: 1rem;" id="p-canvas" class="m-1 border border-secondary" width="514" height="725"></canvas>
+            <div class="container m-3" style="width: 740px; float: left; margin-top: 0.25rem; padding-top:0.25rem;">
+                좌표값 입력 부분(일정크기 넘어가면 세로 스크롤)<br>
+                ▶ 해당 행을 클릭시 사각Box가 파란색으로 변하며 이동 및 크기조절 가능
+                <div class="container">
+                    <!-- 테이블 -->
+                    <table class="table m-1 table-hover" id="data-table">
+                        <thead>
+                            <tr>
+                                <td>label</td>
+                                <td>x</td>
+                                <td>y</td>
+                                <td>w</td>
+                                <td>h</td>
+                                <td>type</td>
+                                <td>삭제</td>
+                            </tr>
+                        </thead>
+                        <tbody id="data_tr">
+                            {% for box in boxData %}
+                            <tr class="data_box" value="{{forloop.counter0}}" onclick="clickTr(this)">
+                                <td><input type="text" class="form-control" value="{{box.label}}"></td>
+                                <td><input type="number" class="form-control" value="{{box.x}}"></td>
+                                <td><input type="number" class="form-control" value="{{box.y}}"></td>
+                                <td><input type="number" class="form-control" value="{{box.w}}"></td>
+                                <td><input type="number" class="form-control" value="{{box.h}}"></td>
+                                <td><input type="text" class="form-control" value="{{box.type}}"></td>
+                                <td><button class="btn btn-light del_tr" value="{{forloop.counter0}}" onclick="delTabelData(this.value)">del</button></td>
+                            </tr>
+                            <script> data.push(JSON.parse('{{box}}'.replace(/&#x27;/g, '\"'))); </script>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    <button class="btn btn-light" id="plus_tr" onclick="createTableData()">plus</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="m-1">
+                        <div class=" d-grid gap-2"> 
+                            <button style="font-size: 20px; height: 40px;" class="btn btn-primary" id="table_submit">적 용</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class=""></div>
     </div>
-    <div class="container m-1 border border-primary">
-        <div class="d-grid gap-2">
-            <button class="btn btn-primary" id="submit_btn" onclick="submitBtn()">양식 최종추가</button>
+    <br>
+    <div class="container m-1" style="width: 100%;">
+        <div class="d-grid gap-2" style="width: 100%;">
+            <button style="width: 50%; margin: 0 auto; padding-top: 1%; font-size: 20px;" class="btn btn-primary" id="submit_btn" onclick="submitBtn()">양식 최종추가</button>
         </div>
     </div>
 </div>
