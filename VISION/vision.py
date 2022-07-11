@@ -214,7 +214,7 @@ def vision(form, image):
                 result = tf.argmax(y)
                 text += (idx2char[result])  
         #csv에 넣을 한줄
-        final.append({f"{label}" : f"{text}"})
+        final.append({label : text})
 
     print(final)
     return final

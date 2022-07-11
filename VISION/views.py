@@ -57,8 +57,8 @@ def home(request):
 
         title = request.POST["input_title"]
         image = request.FILES['input_file']
-        print(image)
-        doc = Document.objects.filter(images=image)
+
+        # doc = Document.objects.filter(images=image)
 
         # 똑같은 양식명에 파일이 한개라도 있다면 overwriting
         # if doc.count():
@@ -69,9 +69,12 @@ def home(request):
         # else:
         document = Document()
         document.title = title
-        document.images = request.FILES['input_file']
+        document.images = image
         document.save()
 
+        last_img = 'media/' + str(Document.objects.last().images)
+
+        
     
         # input_title이 없을때 자동인식 실시
         if not title:
@@ -86,8 +89,7 @@ def home(request):
                 cx = data['lot'][0]['cx']
                 cy = data['lot'][0]['cy']
 
-                base = 'media/images/'
-                img = cv2.imread(base + str(request.FILES['input_file']))
+                img = cv2.imread(last_img)
                 img = cv2.resize(img, (2480, 3508))
 
                 img_r = cv2.getRectSubPix(
@@ -121,9 +123,8 @@ def home(request):
         if title == None:
             return render(request, 'home.html', context)
 
-        base = 'media/images/'
         # if not os.path.exists(os.path.join(base, str(request.FILES['input_file'])))
-        img = cv2.imread(base + str(request.FILES['input_file']))
+        img = cv2.imread(last_img)
         img1 = cv2.resize(img, (2480, 3508))
         
         data = j.search_data(title)
@@ -138,7 +139,7 @@ def home(request):
         form_number = j.search_number_from_title(title)
         
         # form number, image
-        csv_table = vision(form_number, (base + str(request.FILES['input_file'])))
+        csv_table = vision(form_number, last_img)
 
         context['ret'] = ret
         context['files'] = 'media/temp1.jpg'
