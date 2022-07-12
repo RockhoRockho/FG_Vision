@@ -8,7 +8,7 @@ import json
 import cv2
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-from .vision2 import vision2
+from .vision2 import vision2, vision3
 
 # 관리자 메인 페이지
 def admin_form_view(request):
@@ -204,10 +204,11 @@ def idcard(request):
         if ret:
             cv2.imwrite('./media/temp2.jpg', img)
             csv_table = vision2(int(last_num), './media/temp2.jpg')
-            # csv_image = vision3('./media/temp2.jpg')
+
+            csv_image = vision3('./media/temp2.jpg')
             context['files'] = '/media/temp2.jpg'
             context['csv_files'] = csv_table
-            # context['image'] = csv_image
+            context['image'] = csv_image
             
     return render(request, 'idcard.html', context)
     

@@ -105,3 +105,55 @@ def vision2(form2, src):
         final = [{'여권번호': pnum}, {'성': f[-15]}, {'이름': f[-13]}, {'생년월일': f[-9][0:9]}, {'주민등록번호': f[-9][9:]}, {'성별': f[-7]}, {'발급일': f[-5][0:9]}, {'기간만료일': f[-3][0:9]}]
 
     return final
+
+
+def vision3(src):
+    src = cv2.imread(src)
+    src_gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+    th, src_bin = cv2.threshold(src_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    cnts, _ = cv2.findContours(src_bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+    cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:5]
+
+    for c in cnts:
+        peri = cv2.arcLength(c, True)
+        approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+
+        if len(approx) == 4:
+            global screenCnt
+            screenCnt = approx
+            break
+
+    rect = order_points(screenCnt.reshape(4, 2))
+    (topLeft, topRight, bottomRight, bottomLeft) = rect
+    # print(rect)
+    # 두개의 너비, 높이 계산
+    w1 = abs(bottomRight[0] - bottomLeft[0])
+    w2 = abs(topRight[0] - topLeft[0])
+    h1 = abs(topRight[1] - bottomRight[1])
+    h2 = abs(topLeft[1] - bottomLeft[1])
+
+    # # 최대 너비와 최대 높이 계산
+    maxWidth = max([w1, w2])
+    maxHeight = max([h1, h2])
+
+    # # 반환할 좌표의 위치 초기화
+    dat = np.float32([[0, 0], [maxWidth-1, 0], [maxWidth-1, maxHeight-1], [0, maxHeight-1]])
+    M = cv2.getPerspectiveTransform(rect, dat)
+    warped = cv2.warpPerspective(src.copy(), M, (int(maxWidth), int(maxHeight)), flags=cv2.INTER_CUBIC)
+
+    #노이즈 캔슬링
+    warped = cv2.fastNlMeansDenoisingColored(warped, None, 10, 10, 7, 21)
+
+    #반사광
+    warped = cv2.cvtColor(warped, cv2.COLOR_RGB2HSV)
+    h, s, v = cv2.split(warped)
+    
+    clahe = cv2.createCLAHE(clipLimit = 2.0, tileGridSize = (8, 8))
+    v = clahe.apply(v)
+    
+    warped = cv2.merge([h, s, v])
+    warped = cv2.cvtColor(warped, cv2.COLOR_HSV2RGB)
+    dst_rgb = cv2.cvtColor(warped, cv2.COLOR_BGR2RGB)
+    aa = cv2.imwrite('./static/img/im.jpg', dst_rgb)
+    return aa
