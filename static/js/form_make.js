@@ -238,8 +238,6 @@ function uploadFiles(e) {
 }
 
 
-
-
 // 마우스 위치를 잡기위한 변수
 elem = document.querySelector('canvas');
 canvasX = 0;
@@ -263,68 +261,96 @@ function mousemove(event){
     // console.log('move:', moveX, moveY);
     // console.log('offset', canvasX, canvasY);
     
-    // 마우스 클릭상태인지 체크
-    if (isPress == true){
-        // 캔버스 내부인지 체크
-        // 캔버스 크기가 고정일때만 정상작동됨 -> 크기가 바뀌어도 작동하려면 비율계산식 추가필요
-        if (rect.x + SIZE_RANGE <= event.clientX & event.clientX <= (rect.x + rect.width - SIZE_RANGE) & rect.y + SIZE_RANGE <= event.clientY & event.clientY <= (rect.y + rect.height - SIZE_RANGE)){
-            // 타겟 사각형 안쪽인지 확인
-            if (target['x'] < canvasX & canvasX < (target['x'] + target['w']) & target['y'] < canvasY & canvasY < (target['y'] + target['h'])){
+    
+    // 캔버스 내부인지 체크
+    // 캔버스 크기가 고정일때만 정상작동됨 -> 크기가 바뀌어도 작동하려면 비율계산식 추가필요
+    if (rect.x + SIZE_RANGE <= event.clientX & event.clientX <= (rect.x + rect.width - SIZE_RANGE) & rect.y + SIZE_RANGE <= event.clientY & event.clientY <= (rect.y + rect.height - SIZE_RANGE)){
+
+        // 타겟 사각형 안쪽인지 확인
+        if (target['x'] + SIZE_RANGE < canvasX & canvasX < (target['x'] + target['w'] - SIZE_RANGE) & target['y'] + SIZE_RANGE < canvasY & canvasY < (target['y'] + target['h'] - SIZE_RANGE)){
+
+            document.body.style.cursor = "move";
+
+            // 클릭상태인지 체크
+            if (isPress == true){
                 // 마우스 움직임만큼 크기 더하기
                 target['x'] += moveX;
                 target['y'] += moveY;
-    
+
                 data = dataCopy(data, target);
                 draw(data);
             }
+        }
 
+        // 타겟의 외곽선인지 확인
+        else if (target['x'] - SIZE_RANGE < canvasX & canvasX < (target['x'] + target['w']) + SIZE_RANGE & target['y'] - SIZE_RANGE < canvasY & canvasY < (target['y'] + target['h']) + SIZE_RANGE){
 
-            // 타겟의 외곽선인지 확인
-            if (target['x'] - SIZE_RANGE < canvasX & canvasX < (target['x'] + target['w']) + SIZE_RANGE & target['y'] - SIZE_RANGE < canvasY & canvasY < (target['y'] + target['h']) + SIZE_RANGE){
+            // 왼쪽선
+            if (target['x'] - SIZE_RANGE < canvasX & canvasX < target['x'] + SIZE_RANGE) {
 
-                // 왼쪽선
-                if (target['x'] - SIZE_RANGE < canvasX & canvasX < target['x'] + SIZE_RANGE) {
+                document.body.style.cursor = "e-resize";
+
+                // 클릭상태인지 체크
+                if (isPress == true){
                     target['x'] = tempX;
                     target['w'] -= moveX;
 
                     data = dataCopy(data, target);
                     draw(data);
                 }
+            }
 
-                // 오른쪽선
-                if (target['x'] + target['w'] - SIZE_RANGE < canvasX & canvasX < target['x'] + target['w'] + SIZE_RANGE) {
+            // 오른쪽선
+            if (target['x'] + target['w'] - SIZE_RANGE < canvasX & canvasX < target['x'] + target['w'] + SIZE_RANGE) {
+
+                document.body.style.cursor = "e-resize";
+
+                // 클릭상태인지 체크
+                if (isPress == true){
                     target['w'] += moveX;
 
                     data = dataCopy(data, target);
                     draw(data);
                 }
+            }
 
-                // 위쪽선
-                if (target['y'] - SIZE_RANGE < canvasY & canvasY < target['y'] + SIZE_RANGE) {
+            // 위쪽선
+            if (target['y'] - SIZE_RANGE < canvasY & canvasY < target['y'] + SIZE_RANGE) {
+
+                document.body.style.cursor = "n-resize";
+
+                // 클릭상태인지 체크
+                if (isPress == true){
                     target['y'] = tempY;
                     target['h'] -= moveY;
 
                     data = dataCopy(data, target);
                     draw(data);
                 }
+            }
 
-                // 아래쪽선
-                if (target['y'] + target['h'] - SIZE_RANGE < canvasY & canvasY < target['y'] + target['h'] + SIZE_RANGE) {
+            // 아래쪽선
+            if (target['y'] + target['h'] - SIZE_RANGE < canvasY & canvasY < target['y'] + target['h'] + SIZE_RANGE) {
+
+                document.body.style.cursor = "n-resize";
+
+                // 클릭상태인지 체크
+                if (isPress == true){
                     target['h'] += moveY;
 
                     data = dataCopy(data, target);
                     draw(data);
                 }
-            
             }
-            
-
-            // 테이블과 데이터 값 연동
-            setTabelData(target);
-            // data = setDataFromTable(data);
-            // console.log(data)
-
+        } else {
+            document.body.style.cursor = "default";
         }
+        
+
+        // 테이블과 데이터 값 연동
+        setTabelData(target);
+        // data = setDataFromTable(data);
+        // console.log(data)
     }
 }
 

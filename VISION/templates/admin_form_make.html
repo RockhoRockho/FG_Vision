@@ -4,6 +4,7 @@
 {% block title %}FG VISION {% endblock %}
 
 {% block script %} 
+<link href="{% static 'css/make.css' %}" rel="stylesheet">
 <script language = "javascript">
     data = [];
     target = { "idx": 0, "x": 100, "y": 100, "w": 100, "h": 100 };
@@ -15,22 +16,6 @@
 
 
 {% block contents %}
-<!-- border border-primary 삭제하면 테두리 없어짐 -->
-
-<style>
-    @font-face {
-        font-family: 'GangwonEduPowerExtraBoldA';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduPowerExtraBoldA.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
-    .container{
-        font-family: 'GangwonEduPowerExtraBoldA';
-    }
-    .m-3 {
-        margin: 0rem!important;
-    }
-</style>
 <br><br><br>
 <div class="container" style="padding: 0;">
     <div class="container m-1">
@@ -58,6 +43,8 @@
         <div class="container m-3" id="drop" style="padding: 0; margin: 0; width: 98%;">
             <canvas style="float: left; margin-left: 1rem;" id="p-canvas" class="m-1 border border-secondary" width="620" height="877"></canvas>
             <div class="container m-3" style="width: 660px; float: right; margin-top: 0.25rem; padding-top:0.25rem;">
+                ◀ 이미지를 드래그 앤 드롭으로 추가
+                <br><br>
                 좌표값 입력 부분(일정크기 넘어가면 세로 스크롤)<br>
                 ▶ 해당 행을 클릭시 사각Box가 파란색으로 변하며 이동 및 크기조절 가능
                 <div class="container">
@@ -111,6 +98,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{% static 'js/form_make.js' %}"></script>
 <br><br><br>
