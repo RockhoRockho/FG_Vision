@@ -1,5 +1,5 @@
 // 상수설정
-SIZE_RANGE = 6;  // 사각형 크기변경가능 범위
+SIZE_RANGE = 10;  // 사각형 크기변경가능 범위
 
 // 캔버스요소 가져오기  
 var canvas = document.getElementById("p-canvas");
@@ -267,7 +267,7 @@ function mousemove(event){
     if (isPress == true){
         // 캔버스 내부인지 체크
         // 캔버스 크기가 고정일때만 정상작동됨 -> 크기가 바뀌어도 작동하려면 비율계산식 추가필요
-        if (rect.x <= event.clientX & event.clientX <= (rect.x + rect.width) & rect.y <= event.clientY & event.clientY <= (rect.y + rect.height)){
+        if (rect.x + SIZE_RANGE <= event.clientX & event.clientX <= (rect.x + rect.width - SIZE_RANGE) & rect.y + SIZE_RANGE <= event.clientY & event.clientY <= (rect.y + rect.height - SIZE_RANGE)){
             // 타겟 사각형 안쪽인지 확인
             if (target['x'] < canvasX & canvasX < (target['x'] + target['w']) & target['y'] < canvasY & canvasY < (target['y'] + target['h'])){
                 // 마우스 움직임만큼 크기 더하기
@@ -283,8 +283,8 @@ function mousemove(event){
             if (target['x'] - SIZE_RANGE < canvasX & canvasX < (target['x'] + target['w']) + SIZE_RANGE & target['y'] - SIZE_RANGE < canvasY & canvasY < (target['y'] + target['h']) + SIZE_RANGE){
 
                 // 왼쪽선
-                if (target['x'] - SIZE_RANGE < canvasX & canvasX <= target['x']) {
-                    target['x'] += moveX;
+                if (target['x'] - SIZE_RANGE < canvasX & canvasX < target['x'] + SIZE_RANGE) {
+                    target['x'] = tempX;
                     target['w'] -= moveX;
 
                     data = dataCopy(data, target);
@@ -292,7 +292,7 @@ function mousemove(event){
                 }
 
                 // 오른쪽선
-                if (target['x'] + target['w'] <= canvasX & canvasX < target['x'] + target['w'] + SIZE_RANGE) {
+                if (target['x'] + target['w'] - SIZE_RANGE < canvasX & canvasX < target['x'] + target['w'] + SIZE_RANGE) {
                     target['w'] += moveX;
 
                     data = dataCopy(data, target);
@@ -300,8 +300,8 @@ function mousemove(event){
                 }
 
                 // 위쪽선
-                if (target['y'] - SIZE_RANGE < canvasY & canvasY <= target['y']) {
-                    target['y'] += moveY;
+                if (target['y'] - SIZE_RANGE < canvasY & canvasY < target['y'] + SIZE_RANGE) {
+                    target['y'] = tempY;
                     target['h'] -= moveY;
 
                     data = dataCopy(data, target);
@@ -309,7 +309,7 @@ function mousemove(event){
                 }
 
                 // 아래쪽선
-                if (target['y'] + target['h'] <= canvasY & canvasY < target['y'] + target['h'] + SIZE_RANGE) {
+                if (target['y'] + target['h'] - SIZE_RANGE < canvasY & canvasY < target['y'] + target['h'] + SIZE_RANGE) {
                     target['h'] += moveY;
 
                     data = dataCopy(data, target);
