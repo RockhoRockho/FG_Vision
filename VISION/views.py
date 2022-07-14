@@ -161,10 +161,14 @@ def save(request):
     }
 
     for d in data_lot:
-        d["x"] *= 2
-        d["y"] *= 2
-        d["w"] *= 2
-        d["h"] *= 2
+        d["x"] = int(d["x"]) * 4
+        d["y"] = int(d["y"]) * 4
+        d["w"] = int(d["w"]) * 4
+        d["h"] = int(d["h"]) * 4
+        d["cx"] = int(d["x"] + (d["w"] / 2))
+        d["cy"] = int(d["y"] + (d["h"] / 2))
+        del d["x"]
+        del d["y"]
         data["lot"].append(d)
 
     print(data)
