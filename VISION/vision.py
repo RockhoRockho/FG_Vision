@@ -14,37 +14,32 @@ def load_model():
     saved_model = 'Se-ResNet50.h5'
     model = SE_ResNet50(len(character))
     model.load_weights(saved_model)
-    return model, list(character);
-
-# tuplify
-def tup(point):
-    return (point[0], point[1]);
+    return model, list(character)
 
 # returns true if the two boxes overlap
 def overlap(source, target):
     # unpack points
-    tl1, br1 = source;
-    tl2, br2 = target;
+    tl1, br1 = source
+    tl2, br2 = target
 
     # checks
     if (tl1[0] >= br2[0] or tl2[0] >= br1[0]):
-        return False;
+        return False
     if (tl1[1] >= br2[1] or tl2[1] >= br1[1]):
-        return False;
-    return True;
+        return False
+    return True
 
 # returns all overlapping boxes
 def getAllOverlaps(boxes, bounds, index):
-    overlaps = [];
+    overlaps = []
     for a in range(len(boxes)):
         if a != index:
             if overlap(bounds, boxes[a]):
-                overlaps.append(a);
-    return overlaps;
+                overlaps.append(a)
+    return overlaps
 
 
-#import할거는 여기있는거 지우고 다 views에 넣을 계획
-#원래는 파라미터에 img를 넣을 계획인데 현재는 cmd에서 테스트 하고있어서 뺏다
+
 def vision(form, image):
     final = []
     #json 부르고
@@ -93,92 +88,77 @@ def vision(form, image):
                 x,y,w,h = cv2.boundingRect(currentContour)
                 if currentHierarchy[3] < 0:
                     #cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),1)
-                    boxes.append([[x,y], [x+w, y+h]]);
+                    boxes.append([[x,y], [x+w, y+h]])
 
             # filter out excessively large boxes
-            filtered = [];
-            max_area = 30000;
+            filtered = []
+            max_area = 30000
             for box in boxes:
-                w = box[1][0] - box[0][0];
-                h = box[1][1] - box[0][1];
+                w = box[1][0] - box[0][0]
+                h = box[1][1] - box[0][1]
                 if w*h < max_area:
-                    filtered.append(box);
-            boxes = filtered;
+                    filtered.append(box)
+            boxes = filtered
 
             # go through the boxes and start merging
-            merge_margin = 11;
+            merge_margin = 11
 
             # this is gonna take a long time
-            finished = False;
-            highlight = [[0,0], [1,1]];
-            points = [[[0,0]]];
+            finished = False
+
             while not finished:
                 # set end con
-                finished = True;
-
-                # draw boxes # comment this section out to run faster
-                copy = np.copy(img);
-                #for box in boxes:
-                for point in points:
-                    point = point[0];
-                    cv2.circle(copy, tup(point), 4, (255,0,0), -1);
-                key = cv2.waitKey(1);
-                if key == ord('q'):
-                    break;
+                finished = True
 
                 # loop through boxes
-                index = len(boxes) - 1;
+                index = len(boxes) - 1
                 while index >= 0:
                     # grab current box
-                    curr = boxes[index];
+                    curr = boxes[index]
 
                     # add margin
-                    tl = curr[0][:];
-                    br = curr[1][:];
-                    tl[0] -= merge_margin;
-                    tl[1] -= merge_margin;
-                    br[0] += merge_margin;
-                    br[1] += merge_margin;
+                    tl = curr[0][:]
+                    br = curr[1][:]
+                    tl[0] -= merge_margin
+                    tl[1] -= merge_margin
+                    br[0] += merge_margin
+                    br[1] += merge_margin
 
                     # get matching boxes
-                    overlaps = getAllOverlaps(boxes, [tl, br], index);
+                    overlaps = getAllOverlaps(boxes, [tl, br], index)
 
                     # check if empty
                     if len(overlaps) > 0:
                         # combine boxes
                         # convert to a contour
-                        con = [];
-                        overlaps.append(index);
+                        con = []
+                        overlaps.append(index)
                         for ind in overlaps:
-                            tl, br = boxes[ind];
-                            con.append([tl]);
-                            con.append([br]);
-                        con = np.array(con);
+                            tl, br = boxes[ind]
+                            con.append([tl])
+                            con.append([br])
+                        con = np.array(con)
 
                         # get bounding rect
-                        x,y,w,h = cv2.boundingRect(con);
+                        x,y,w,h = cv2.boundingRect(con)
 
                         # stop growing
-                        w -= 1;
-                        h -= 1;
-                        merged = [[x,y], [x+w, y+h]];
-
-                        # highlights
-                        highlight = merged[:];
-                        points = con;
+                        w -= 1
+                        h -= 1
+                        merged = [[x,y], [x+w, y+h]]
 
                         # remove boxes from list
-                        overlaps.sort(reverse = True);
+                        overlaps.sort(reverse = True)
                         for ind in overlaps:
-                            del boxes[ind];
-                        boxes.append(merged);
+                            del boxes[ind]
+                        boxes.append(merged)
 
                         # set flag
-                        finished = False;
-                        break;
+                        finished = False
+                        break
 
                     # increment
-                    index -= 1;
+                    index -= 1
         except:
             boxes = []
 
