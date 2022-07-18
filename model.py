@@ -2,7 +2,6 @@
 import tensorflow as tf
 from keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, Concatenate, Reshape, Activation
 from keras.models import Model
-from d2l import tensorflow as d2l
 
 
 def VGG10(num_class, input_shape=(32, 32, 3), output_channel=512):
@@ -91,7 +90,7 @@ def VGG16(num_class, input_shape=(32,32,3), output_channel=512):
     outputs = tf.keras.layers.Dropout(0.5)(outputs)
     outputs = tf.keras.layers.Dense(4096, activation='relu')(outputs)
     outputs = tf.keras.layers.Dropout(0.5)(outputs)
-    outputs = tf.keras.layers.Dense(1000, activation='relu')(outputs)
+    outputs = tf.keras.layers.Dense(4096, activation='relu')(outputs)
     outputs = tf.keras.layers.Dropout(0.5)(outputs)
     outputs = tf.keras.layers.Dense(num_class, activation='softmax')(outputs)
     
@@ -99,16 +98,16 @@ def VGG16(num_class, input_shape=(32,32,3), output_channel=512):
     
     return model
 
-def ResNet50(num_class, input_shape=(32,32,3), output_channel=512):
+def ResNet152(num_class, input_shape=(32,32,3), output_channel=512):
     inputs = tf.keras.layers.Input(input_shape)
     outputs = tf.keras.layers.Conv2D(64, kernel_size=7, strides=2, padding='same')(inputs)
     outputs = tf.keras.layers.BatchNormalization()(outputs)
     outputs = tf.keras.layers.Activation('relu')(outputs)
     outputs = tf.keras.layers.MaxPool2D(pool_size=3, strides=2, padding='same')(outputs)
-    outputs = ResnetBlock(64, 2, first_block=True)(outputs)
-    outputs = ResnetBlock(128, 2)(outputs)
-    outputs = ResnetBlock(256, 2)(outputs)
-    outputs = ResnetBlock(512, 2)(outputs)
+    outputs = ResnetBlock(64, 3, first_block=True)(outputs)
+    outputs = ResnetBlock(128, 8)(outputs)
+    outputs = ResnetBlock(256, 36)(outputs)
+    outputs = ResnetBlock(512, 3)(outputs)
     outputs = tf.keras.layers.GlobalAvgPool2D()(outputs)
     outputs = tf.keras.layers.Dense(num_class, activation='softmax')(outputs)
 
@@ -116,12 +115,29 @@ def ResNet50(num_class, input_shape=(32,32,3), output_channel=512):
 
     return model
 
+# def ResNet50(num_class, input_shape=(32,32,3), output_channel=512):
+#     inputs = tf.keras.layers.Input(input_shape)
+#     outputs = tf.keras.layers.Conv2D(64, kernel_size=7, strides=2, padding='same')(inputs)
+#     outputs = tf.keras.layers.BatchNormalization()(outputs)
+#     outputs = tf.keras.layers.Activation('relu')(outputs)
+#     outputs = tf.keras.layers.MaxPool2D(pool_size=3, strides=2, padding='same')(outputs)
+#     outputs = ResnetBlock(64, 2, first_block=True)(outputs)
+#     outputs = ResnetBlock(128, 2)(outputs)
+#     outputs = ResnetBlock(256, 2)(outputs)
+#     outputs = ResnetBlock(512, 2)(outputs)
+#     outputs = tf.keras.layers.GlobalAvgPool2D()(outputs)
+#     outputs = tf.keras.layers.Dense(num_class, activation='softmax')(outputs)
+
+#     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
+
+#     return model
+
 class Residual(tf.keras.Model):  #@save
     """The Residual block of ResNet."""
     def __init__(self, num_channels, use_1x1conv=False, strides=1):
         super().__init__()
         self.conv1 = tf.keras.layers.Conv2D(
-            num_channels, padding='same', kernel_size=3, strides=strides)
+            num_channels, padding='same', kernel_size=1, strides=strides)
         self.conv2 = tf.keras.layers.Conv2D(
             num_channels, kernel_size=3, padding='same')
         self.conv3 = None
