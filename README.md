@@ -27,3 +27,10 @@
 ### 손 글씨 인식 모델
 
 ![alt text](https://github.com/RockhoRockho/FG_Vision/blob/main/rmimg/rm1.JPG?raw=true)
+
+◆ 26만개 이상의 손글씨, 인쇄체 한글이미지와 7만개의 손글씨 숫자이미지를  사용하여 학습진행
+
+◆ VGG10, VGG16, ResNet50, SE-ResNet50 모델을 사용함
+
+◆ 최종적으로 가장 성능이 좋은 SE-ResNet50으로 95%의 정확도를 끌어올렸고 0.39의 loss값을 도출해냄
+
