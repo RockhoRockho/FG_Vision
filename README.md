@@ -8,7 +8,7 @@
 
 ### 팀원 : 
 
- * (조장)이준영 : 전체 총괄 및 손글씨 전처리 및 VGG 모델학습
+ * (조장)이준영 :  전체 총괄 및 손글씨 전처리 및 VGG10, VGG16, ResNet152, SE-ResNet50 모델학습
 
  * 유원준 : 전체 디자인 및 백엔드 서비스 구축 
 
@@ -19,7 +19,8 @@
  * 강재원 : Canvas를 이용한 json 양식 추가 서비스 및 제작 tool  구축
 
 ### 사용기술 : 
- > 1) 데이터 : corpus, 단어사전, 의도분류 모델, 개체명 인식 모델 등 자체 데이터 생성
- > 2) 개발 환경 : Jupyter Notebook, VS code, Sqlite3
- > 3) 개발 언어 : Python, Javascript, HTML, CSS, JQuery
- > 4) 개발 라이브러리 : Django, Tensorflow, Pandas, OpenCv, Canvas
+ 1) 데이터 : AIhub(한국어 글자체 이미지), mnist / Model - VGG10, VGG16, ResNet152, SE-ResNet50
+ 2) 개발 환경 : Jupyter Notebook, VScode, Sqlite3
+ 3) 개발 언어 : Python, Javascript, Jquery, HTML, CSS
+ 4) 개발 라이브러리 : Django, Tensorflow, Pandas, pytesseract, OpenCV, canvas
+
