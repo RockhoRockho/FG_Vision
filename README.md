@@ -4,8 +4,6 @@
 **공공기관 문서 OCR 및 신분증 인식 웹사이트 입니다.**  
 **오래되거나 수기로 작성된 관공서의 문서들에 대하여 OCR 분석을 통해 자동분석 및 결과 서비스 제공**
 
-<img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"/>
-
 ### 기간 : 2022.06.24 ~ 2022.07.19
 
 ### 팀명 : Project FG
