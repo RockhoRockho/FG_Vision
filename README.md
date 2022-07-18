@@ -24,3 +24,6 @@
  3) 개발 언어 : Python, Javascript, Jquery, HTML, CSS
  4) 개발 라이브러리 : Django, Tensorflow, Pandas, pytesseract, OpenCV, canvas
 
+### 손 글씨 인식 모델
+
+![alt text](https://github.com/RockhoRockho/FG_Vision/blob/main/rmimg/rm1.JPG?raw=true)
